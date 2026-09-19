@@ -1,0 +1,27 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Environment secrets
+.env
+.kaggle/
+
+# Data — too large for Git, and regenerable
+data/raw/
+data/processed/
+data/forecasts/
+
+# Node
+node_modules/
+dist/
+*.log
+
+# Editor / OS
+.vscode/
+.DS_Store
+
+# Notebook checkpoints
+.ipynb_checkpoints/
