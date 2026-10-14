@@ -118,7 +118,7 @@ export default function Dashboard() {
               formatter={(v) => [`${v.toFixed(2)}%`, "of postings"]}
               contentStyle={{ fontSize: 12, borderRadius: 8 }}
             />
-            <Bar dataKey="pct" radius={[4, 4, 0, 0]}>
+            <Bar dataKey="pct" radius={[4, 4, 0, 0]} isAnimationActive={false}>
               {chart.map((entry) => (
                 <Cell
                   key={entry.skill}

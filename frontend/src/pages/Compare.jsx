@@ -160,6 +160,7 @@ export default function Compare() {
                   strokeWidth={2}
                   dot={false}
                   connectNulls
+                  isAnimationActive={false}
                 />
               ))}
             </LineChart>

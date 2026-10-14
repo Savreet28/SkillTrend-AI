@@ -181,6 +181,7 @@ export default function Forecast() {
                   strokeWidth={2.5}
                   dot={false}
                   connectNulls={false}
+                  isAnimationActive={false}
                 />
                 <Line
                   type="monotone"
@@ -190,6 +191,7 @@ export default function Forecast() {
                   strokeDasharray="6 4"
                   dot={{ r: 3, fill: "#9333ea" }}
                   connectNulls
+                  isAnimationActive={false}
                 />
               </ComposedChart>
             </ResponsiveContainer>
