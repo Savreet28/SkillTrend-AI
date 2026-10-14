@@ -8,3 +8,10 @@ pyarrow>=17.0
 
 # Dataset download
 kaggle>=1.6
+
+# NLP
+spacy>=3.8
+PyYAML>=6.0
+
+# Forecasting
+prophet>=1.1

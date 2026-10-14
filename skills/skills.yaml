@@ -1,0 +1,167 @@
+# SkillTrend AI — skill dictionary
+#
+# Structure:  Category -> Canonical Name -> [aliases]
+# The canonical name is ALWAYS matched in addition to its aliases.
+# Matching is case-insensitive and token-based (see scripts/skill_extractor.py).
+#
+# Built from evidence: every entry was checked against the actual corpus.
+# Terms appearing in fewer than ~30 postings were left out as unusable.
+
+skills:
+
+  Programming Languages:
+    Python: [python3, "python 3"]
+    R: []
+    SQL: ["t-sql", tsql, "pl/sql", plsql, "ansi sql"]
+    Java: []
+    JavaScript: [js]
+    Scala: []
+    C++: [cpp, "c/c++"]
+    C#: [csharp, "c sharp"]
+    MATLAB: []
+    SAS: []
+    SPSS: []
+    VBA: ["visual basic", "visual basic for applications"]
+    Go: [golang, "go programming", "go language"]
+    Ruby: []
+    PHP: []
+    Perl: []
+    Shell: [bash, "shell scripting"]
+    PowerShell: []
+
+  Databases & Warehouses:
+    PostgreSQL: [postgres, "postgre sql", psql]
+    MySQL: []
+    SQL Server: [mssql, "ms sql", "microsoft sql server"]
+    Oracle: ["oracle database"]
+    MongoDB: [mongo]
+    NoSQL: ["no-sql", "no sql"]
+    Snowflake: []
+    Redshift: ["amazon redshift"]
+    BigQuery: ["big query", "google bigquery"]
+    Databricks: []
+    Teradata: []
+    Redis: []
+    SQLite: []
+    Cassandra: []
+    Elasticsearch: ["elastic search"]
+    DynamoDB: []
+    Azure Synapse: [synapse]
+
+  BI & Visualization:
+    Power BI: [powerbi, "power-bi"]
+    Tableau: []
+    Looker: ["looker studio", "google data studio"]
+    Qlik: [qlikview, "qlik sense", qliksense]
+    MicroStrategy: ["micro strategy"]
+    Cognos: ["ibm cognos"]
+    SSRS: ["sql server reporting services"]
+    Domo: []
+    Crystal Reports: ["crystal report"]
+    Matplotlib: []
+    Seaborn: []
+    Plotly: []
+    ggplot2: [ggplot]
+    DAX: []
+
+  Data Engineering & Big Data:
+    ETL: []
+    ELT: []
+    Apache Spark: [spark, pyspark, "spark sql"]
+    Hadoop: []
+    Apache Airflow: [airflow]
+    dbt: ["data build tool"]
+    Apache Kafka: [kafka]
+    SSIS: ["sql server integration services"]
+    Alteryx: []
+    Informatica: []
+    Talend: []
+    Fivetran: []
+    Hive: ["apache hive"]
+    Data Warehouse: ["data warehousing", datawarehouse]
+    Data Pipeline: ["data pipelines"]
+    Data Modeling: ["data modelling", "dimensional modeling", "dimensional modelling"]
+
+  Cloud Platforms:
+    AWS: ["amazon web services"]
+    Azure: ["microsoft azure"]
+    GCP: ["google cloud", "google cloud platform"]
+    Amazon S3: [s3]
+    AWS Lambda: []
+    EC2: []
+    Azure Data Factory: ["data factory"]
+    SageMaker: ["amazon sagemaker", "aws sagemaker"]
+
+  AI & Machine Learning:
+    Machine Learning: ["machine-learning"]
+    Deep Learning: []
+    NLP: ["natural language processing"]
+    Computer Vision: []
+    TensorFlow: ["tensor flow"]
+    PyTorch: []
+    Scikit-learn: [sklearn, "scikit learn"]
+    Keras: []
+    XGBoost: []
+    Pandas: []
+    NumPy: []
+    SciPy: []
+    Predictive Modeling: ["predictive model", "predictive models", "predictive modelling", "predictive analytics"]
+    Statistical Analysis: [statistics, "statistical modeling", "statistical analysis"]
+    A/B Testing: ["a/b test", "ab testing", "split testing"]
+
+  Generative AI:
+    LLM: [llms, "large language model", "large language models"]
+    Generative AI: [genai, "gen ai", "generative artificial intelligence"]
+    ChatGPT: []
+    OpenAI: []
+    LangChain: ["lang chain"]
+    RAG: ["retrieval augmented generation", "retrieval-augmented generation"]
+    Hugging Face: [huggingface]
+    Prompt Engineering: []
+    Vector Database: ["vector databases", "vector db", "vector store"]
+    GitHub Copilot: [copilot]
+
+  DevOps & Version Control:
+    Git: []
+    GitHub: []
+    GitLab: []
+    Bitbucket: []
+    Docker: []
+    Kubernetes: [k8s]
+    CI/CD: ["ci cd", "continuous integration"]
+    Jenkins: []
+    Terraform: []
+    Linux: []
+    Unix: []
+
+  Office & Collaboration:
+    Microsoft Excel: [excel, "ms excel"]
+    PowerPoint: ["power point"]
+    Microsoft Word: ["ms word"]
+    Outlook: ["ms outlook"]
+    SharePoint: ["share point"]
+    Visio: []
+    Google Sheets: ["google sheet"]
+    Jira: []
+    Confluence: []
+    SAP: []
+    Salesforce: []
+
+
+# ---------------------------------------------------------------------
+# Skills whose CANONICAL NAME must not be matched on its own -- only
+# their aliases count. Without this, "go above and beyond" matches Go.
+# ---------------------------------------------------------------------
+canonical_not_matched:
+  - Go
+
+
+# ---------------------------------------------------------------------
+# Ambiguity rules: reject a match when the NEXT token is in this list.
+# These exist because some skill names are also ordinary English words.
+# ---------------------------------------------------------------------
+blocked_next_tokens:
+  Microsoft Excel: [at, in, as, beyond]        # "excel at communication"
+  Apache Spark: [innovation, creativity, interest, joy, change, ideas, conversations]
+  R: ["&"]                                     # "R & D"
+  Domo: [arigato]
