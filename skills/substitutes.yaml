@@ -1,0 +1,108 @@
+# Substitute families — tools that do the SAME JOB.
+#
+# WHY THIS FILE IS CURATED AND NOT LEARNED FROM DATA
+# 09_cooccurrence.py tried to derive these statistically and failed. The
+# hypothesis was that substitutes repel: employers want one or the other,
+# so they should co-occur BELOW chance. Job ads do the opposite -- they
+# write "experience with Tableau, Power BI or Looker", so alternatives
+# appear together constantly.
+#
+# Measured on known pairs, every candidate metric overlapped:
+#
+#                    similarity   lift   Jaccard   asymmetry
+#   substitutes         0.77      11.7     0.23       0.27
+#   complements         0.93      23.5     0.21       0.47
+#
+# TensorFlow/PyTorch (alternatives) scores 0.96 / 57. Docker/Kubernetes
+# (partners) scores 0.97 / 69. Statistically the same. The distinction is
+# about what the tools DO, which co-occurrence cannot observe.
+#
+# So substitution is declared here, and the DATA decides which member of
+# a family to actually learn (demand, trend, forecast, fit with your
+# existing stack). Same split as the skill dictionary: humans supply the
+# meaning, data supplies the measurement.
+#
+# Only unambiguous families are listed. Spark/Hadoop is deliberately
+# absent -- Spark largely replaced MapReduce, but the two still appear
+# together in real stacks, and a wrong call there costs the user more
+# than a missing one.
+
+families:
+
+  BI & dashboarding:
+    reason: >
+      All build dashboards over a warehouse. Employers name whichever one
+      they already own. The transferable skill is dimensional thinking,
+      not the vendor's menus.
+    skills: [Tableau, Power BI, Looker, Qlik, MicroStrategy, Domo, Cognos, Crystal Reports]
+
+  Cloud platform:
+    reason: >
+      Same primitives under different names. Learn one properly; the
+      second takes weeks, not months.
+    skills: [AWS, Azure, GCP]
+
+  Cloud data warehouse:
+    reason: >
+      Columnar warehouses queried with SQL. The SQL transfers completely.
+    skills: [Snowflake, Redshift, BigQuery, Teradata, Azure Synapse]
+
+  Relational database:
+    reason: >
+      ANSI SQL is the real skill and it is portable. Dialect differences
+      are a day of reading.
+    skills: [PostgreSQL, MySQL, SQL Server, Oracle, SQLite]
+
+  Deep learning framework:
+    reason: >
+      Same concepts, different syntax. PyTorch dominates research,
+      TensorFlow lingers in older production systems.
+    skills: [TensorFlow, PyTorch]
+
+  Statistics package:
+    reason: >
+      Legacy licensed tools serving the same purpose as Python or R.
+      Usually required by an employer's existing estate, not chosen.
+    skills: [SAS, SPSS, MATLAB]
+
+  Python plotting:
+    reason: >
+      Interchangeable charting libraries. Knowing one means reading the
+      docs for the next.
+    skills: [Matplotlib, Seaborn, Plotly, ggplot2]
+
+  NoSQL store:
+    reason: >
+      Different data models, but rarely do employers want several. Pick
+      the one your target stack uses.
+    skills: [MongoDB, Cassandra, DynamoDB, Redis]
+
+  Git hosting:
+    reason: >
+      The skill is Git itself. The hosting platform is an afternoon.
+    skills: [GitHub, GitLab, Bitbucket]
+
+  ETL tooling:
+    reason: >
+      Drag-and-drop or managed ingestion tools. Largely being displaced
+      by SQL-first tooling such as dbt.
+    skills: [Informatica, Talend, Fivetran, SSIS, Alteryx]
+
+
+# Pairs that LOOK like substitutes but are not — these are called out
+# explicitly so the engine never recommends dropping one of them.
+not_substitutes:
+  - pair: [Docker, Kubernetes]
+    reason: Kubernetes orchestrates containers. You need both.
+  - pair: [Python, Pandas]
+    reason: Pandas is a Python library, not an alternative to Python.
+  - pair: [Python, NumPy]
+    reason: Same — a library, not an alternative.
+  - pair: [TensorFlow, Keras]
+    reason: Keras is TensorFlow's high-level API, not a competitor.
+  - pair: [SQL, PostgreSQL]
+    reason: SQL is the language; PostgreSQL is one database that speaks it.
+  - pair: [Machine Learning, Deep Learning]
+    reason: Deep learning is a subset of machine learning.
+  - pair: [ETL, Data Warehouse]
+    reason: ETL is the process that fills the warehouse.

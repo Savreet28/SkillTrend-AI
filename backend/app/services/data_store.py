@@ -38,6 +38,8 @@ class DataStore:
         self.role_profiles = pd.DataFrame()
         self.role_monthly = pd.DataFrame()
         self.role_stats: dict = {}
+        self.relations = pd.DataFrame()
+        self.families: dict = {}
         self.metrics: dict = {}
         self.extraction: dict = {}
 
@@ -70,6 +72,13 @@ class DataStore:
             self.role_monthly["month"] = pd.to_datetime(self.role_monthly["month"])
         if config.ROLE_STATS.exists():
             self.role_stats = json.loads(config.ROLE_STATS.read_text())
+
+        # Decide engine. Also optional: without it /api/stack returns 503
+        # with instructions rather than the whole API failing to start.
+        if config.SKILL_RELATIONS.exists():
+            self.relations = pd.read_parquet(config.SKILL_RELATIONS)
+        if config.SKILL_FAMILIES.exists():
+            self.families = json.loads(config.SKILL_FAMILIES.read_text())
 
         self.monthly["month"] = pd.to_datetime(self.monthly["month"])
         self.totals["month"] = pd.to_datetime(self.totals["month"])
@@ -113,6 +122,10 @@ class DataStore:
         if analysis_only:
             df = df[df["is_analysis_grade"]]
         return df.sort_values("month")
+
+    @property
+    def has_relations(self) -> bool:
+        return not self.relations.empty and bool(self.families)
 
     @property
     def has_roles(self) -> bool:

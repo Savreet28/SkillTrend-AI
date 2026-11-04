@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   Area, CartesianGrid, ComposedChart, Legend, Line, ReferenceLine,
@@ -10,27 +10,35 @@ import { api, fmtMonth, fmtPct } from "../services/api";
 import {
   CategoryTag, ErrorBox, Loading, QualityNote, StatCard,
 } from "../components/ui";
+import UploadPanel from "../components/UploadPanel";
 
 export default function Forecast() {
   const [params, setParams] = useSearchParams();
-  const [skill, setSkill] = useState(params.get("skill") || "Python");
-
-  useEffect(() => {
-    const fromUrl = params.get("skill");
-    if (fromUrl && fromUrl !== skill) setSkill(fromUrl);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params]);
+  // The URL is the single source of truth for the selected skill. Mirroring
+  // it into state needed an effect that called setState on every param
+  // change, which cascades renders -- deriving it removes the effect.
+  const skill = params.get("skill") || "Python";
+  // null = the default corpus; otherwise an upload summary.
+  const [dataset, setDataset] = useState(null);
+  const [search, setSearch] = useState("");
 
   const all = useApi(() => api.skills({ limit: 500, sort: "overall_pct" }), []);
-  const fc = useApi(() => api.forecast(skill), [skill]);
+  const fc = useApi(
+    () => api.forecast(skill, { dataset: dataset?.upload_id }),
+    [skill, dataset?.upload_id]
+  );
 
   function choose(next) {
-    setSkill(next);
     setParams({ skill: next });
   }
 
   if (all.loading) return <Loading label="Loading skills…" />;
   if (all.error) return <ErrorBox message={all.error} />;
+
+  const visible = search
+    ? all.data.filter((s) =>
+        s.skill.toLowerCase().includes(search.toLowerCase()))
+    : all.data;
 
   const rows =
     fc.data?.points.map((p) => ({
@@ -62,22 +70,33 @@ export default function Forecast() {
         </p>
       </div>
 
+      <UploadPanel dataset={dataset} onDataset={setDataset} />
+
       <div className="rounded-xl border border-slate-200 bg-white p-3">
         <label className="block text-xs font-medium text-slate-500">Skill</label>
-        <select
-          value={skill}
-          onChange={(e) => choose(e.target.value)}
-          className="mt-1 w-full max-w-sm rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-sm outline-none focus:border-slate-900"
-        >
-          {all.data.map((s) => (
-            <option key={s.skill} value={s.skill}>
-              {s.skill} — {fmtPct(s.overall_pct)}
-            </option>
-          ))}
-        </select>
+        <div className="mt-1 flex flex-wrap gap-2">
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Filter skills…"
+            className="w-40 rounded-md border border-slate-300 px-2.5 py-1.5 text-sm outline-none focus:border-slate-900"
+          />
+          <select
+            value={skill}
+            onChange={(e) => choose(e.target.value)}
+            className="min-w-[200px] flex-1 rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-sm outline-none focus:border-slate-900"
+          >
+            {visible.map((s) => (
+              <option key={s.skill} value={s.skill}>
+                {s.skill} — {fmtPct(s.overall_pct)}
+              </option>
+            ))}
+          </select>
+        </div>
         <p className="mt-1.5 text-xs text-slate-500">
-          Only skills averaging ≥ 0.5% of postings are modelled. Anything rarer
-          is too sparse for an honest forecast.
+          {dataset
+            ? "Fitted on demand against your uploaded data."
+            : "Only skills averaging ≥ 0.5% of postings are modelled. Anything rarer is too sparse for an honest forecast."}
         </p>
       </div>
 
@@ -94,7 +113,7 @@ export default function Forecast() {
 
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
             <StatCard
-              label="Prophet error"
+              label="Model error"
               value={`${m.prophet_mae.toFixed(2)}p`}
               sub="mean abs. error, 3-month holdout"
             />

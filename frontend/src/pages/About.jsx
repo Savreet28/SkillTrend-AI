@@ -123,6 +123,90 @@ export default function About() {
         </Section>
       )}
 
+      <Section title="The Decide engine — and a hypothesis that failed">
+        <p>
+          The goal was to detect <strong>substitutes</strong> (tools doing the
+          same job, where learning both wastes time) separately from{" "}
+          <strong>complements</strong> (tools that need each other).
+        </p>
+        <p>
+          The hypothesis: substitutes should <em>repel</em> — employers want
+          Tableau <em>or</em> Power BI, so they should co-occur below chance.
+          Job ads do the opposite. They write "experience with Tableau, Power
+          BI or Looker", so alternatives appear together constantly.
+        </p>
+        <table className="w-full text-xs">
+          <thead>
+            <tr className="text-left text-slate-500">
+              <th className="py-1 pr-2 font-medium">Known pairs</th>
+              <th className="py-1 pr-2 text-right font-medium">similarity</th>
+              <th className="py-1 pr-2 text-right font-medium">lift</th>
+              <th className="py-1 text-right font-medium">Jaccard</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-t border-slate-100">
+              <td className="py-1 pr-2">Substitutes</td>
+              <td className="py-1 pr-2 text-right tabular-nums">0.77</td>
+              <td className="py-1 pr-2 text-right tabular-nums">11.7</td>
+              <td className="py-1 text-right tabular-nums">0.23</td>
+            </tr>
+            <tr className="border-t border-slate-100">
+              <td className="py-1 pr-2">Complements</td>
+              <td className="py-1 pr-2 text-right tabular-nums">0.93</td>
+              <td className="py-1 pr-2 text-right tabular-nums">23.5</td>
+              <td className="py-1 text-right tabular-nums">0.21</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          TensorFlow/PyTorch (alternatives) scores 0.96&nbsp;/&nbsp;57.
+          Docker/Kubernetes (partners) scores 0.97&nbsp;/&nbsp;69.{" "}
+          <strong>Statistically identical.</strong> The difference is semantic —
+          what the tools do — which co-occurrence cannot see.
+        </p>
+        <p className="rounded-lg bg-blue-50 p-2 text-blue-900">
+          So the problem was split: <strong>which tools are alternatives</strong>{" "}
+          is curated by hand in <code>skills/substitutes.yaml</code>;{" "}
+          <strong>which one to pick</strong> and <strong>what is missing</strong>{" "}
+          come entirely from the data. The validation runs on every pipeline
+          execution, so the negative result stays visible rather than being
+          quietly dropped.
+        </p>
+      </Section>
+
+      <Section title="Why family rankings use two corpora">
+        <p>
+          Ranking on the historical corpus alone gave bad advice: "learn
+          Oracle", "learn SAS", "learn Informatica". Accurate{" "}
+          <em>about that corpus</em> — 2022–24 data-analyst postings, heavy on
+          legacy enterprise tooling — and wrong as guidance for someone starting
+          now.
+        </p>
+        <p>
+          Blending in the live multi-role feed corrected it: Relational database
+          moved from Oracle to <strong>PostgreSQL</strong>, Deep learning from a
+          coin-flip tie to <strong>PyTorch</strong>, ETL from Informatica to{" "}
+          <strong>Fivetran</strong>. Where the two corpora disagree, the family
+          table says so explicitly.
+        </p>
+      </Section>
+
+      <Section title="Uploading your own data">
+        <p>
+          <strong>Append</strong> splices your postings onto the historical
+          corpus so the forecast origin moves to your latest month.{" "}
+          <strong>Standalone</strong> analyses your file alone.
+        </p>
+        <p className="rounded-lg bg-amber-50 p-2 text-amber-900">
+          Under 12 months of history, <strong>no forecast is produced</strong> —
+          refused with the reason, rather than faked. In append mode the join
+          month is recorded and shown, because the two datasets are different
+          populations and a jump at the seam is a change of source, not of
+          market.
+        </p>
+      </Section>
+
       <Section title="The role comparison (a second, separate data source)">
         <p>
           The Roles page does not use the Kaggle corpus at all. It pulls current
@@ -177,7 +261,14 @@ export default function About() {
           </li>
           <li>
             <strong>Forecasts are weak.</strong> 21 monthly points is very little
-            history. The honest reading is a direction, not a number.
+            history. The honest reading is a direction, not a number. On a
+            deployed instance without Prophet the fallback trend scores MAE
+            1.8154 against Prophet's 1.8124 — practically identical.
+          </li>
+          <li>
+            <strong>Substitute families are human-curated</strong>, because the
+            data provably could not derive them. Only unambiguous families are
+            listed; Spark/Hadoop is deliberately absent.
           </li>
           <li>
             <strong>Role profiles are small.</strong> Software Engineer has ~790

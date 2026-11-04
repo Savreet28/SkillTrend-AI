@@ -1,0 +1,805 @@
+{
+  "horizon_months": 6,
+  "holdout_months": 3,
+  "history_months": 21,
+  "skills_modelled": 88,
+  "skills_beating_baseline": 47,
+  "pct_beating_baseline": 53.4,
+  "mean_prophet_mae": 0.7827,
+  "mean_naive_mae": 0.8109,
+  "prophet_better_overall": true,
+  "per_skill": {
+    "SQL": {
+      "prophet_mae": 3.5305,
+      "prophet_mape": 6.21,
+      "naive_mae": 2.5137,
+      "naive_mape": 4.59,
+      "beats_baseline": false,
+      "improvement_pct": -40.5,
+      "n_observations": 21
+    },
+    "Python": {
+      "prophet_mae": 1.8124,
+      "prophet_mape": 4.67,
+      "naive_mae": 1.837,
+      "naive_mape": 4.75,
+      "beats_baseline": true,
+      "improvement_pct": 1.3,
+      "n_observations": 21
+    },
+    "Microsoft Excel": {
+      "prophet_mae": 2.0498,
+      "prophet_mape": 6.76,
+      "naive_mae": 3.1825,
+      "naive_mape": 11.44,
+      "beats_baseline": true,
+      "improvement_pct": 35.6,
+      "n_observations": 21
+    },
+    "Statistical Analysis": {
+      "prophet_mae": 2.1456,
+      "prophet_mape": 6.58,
+      "naive_mae": 2.2534,
+      "naive_mape": 6.85,
+      "beats_baseline": true,
+      "improvement_pct": 4.8,
+      "n_observations": 21
+    },
+    "Tableau": {
+      "prophet_mae": 1.7345,
+      "prophet_mape": 5.71,
+      "naive_mae": 2.0337,
+      "naive_mape": 7.32,
+      "beats_baseline": true,
+      "improvement_pct": 14.7,
+      "n_observations": 21
+    },
+    "Power BI": {
+      "prophet_mae": 2.5888,
+      "prophet_mape": 8.33,
+      "naive_mae": 2.1321,
+      "naive_mape": 6.82,
+      "beats_baseline": false,
+      "improvement_pct": -21.4,
+      "n_observations": 21
+    },
+    "R": {
+      "prophet_mae": 2.28,
+      "prophet_mape": 10.42,
+      "naive_mae": 2.0994,
+      "naive_mape": 9.73,
+      "beats_baseline": false,
+      "improvement_pct": -8.6,
+      "n_observations": 21
+    },
+    "Machine Learning": {
+      "prophet_mae": 1.287,
+      "prophet_mape": 8.79,
+      "naive_mae": 0.837,
+      "naive_mape": 5.35,
+      "beats_baseline": false,
+      "improvement_pct": -53.8,
+      "n_observations": 21
+    },
+    "Data Warehouse": {
+      "prophet_mae": 1.733,
+      "prophet_mape": 19.28,
+      "naive_mae": 0.9289,
+      "naive_mape": 8.82,
+      "beats_baseline": false,
+      "improvement_pct": -86.6,
+      "n_observations": 21
+    },
+    "Data Modeling": {
+      "prophet_mae": 0.3009,
+      "prophet_mape": 2.75,
+      "naive_mae": 1.4521,
+      "naive_mape": 13.4,
+      "beats_baseline": true,
+      "improvement_pct": 79.3,
+      "n_observations": 21
+    },
+    "ETL": {
+      "prophet_mae": 1.0372,
+      "prophet_mape": 11.21,
+      "naive_mae": 0.9217,
+      "naive_mape": 9.41,
+      "beats_baseline": false,
+      "improvement_pct": -12.5,
+      "n_observations": 21
+    },
+    "SAS": {
+      "prophet_mae": 1.9732,
+      "prophet_mape": 22.78,
+      "naive_mae": 1.7215,
+      "naive_mape": 19.9,
+      "beats_baseline": false,
+      "improvement_pct": -14.6,
+      "n_observations": 21
+    },
+    "PowerPoint": {
+      "prophet_mae": 1.2975,
+      "prophet_mape": 21.38,
+      "naive_mae": 0.8727,
+      "naive_mape": 11.13,
+      "beats_baseline": false,
+      "improvement_pct": -48.7,
+      "n_observations": 21
+    },
+    "Oracle": {
+      "prophet_mae": 1.9433,
+      "prophet_mape": 31.14,
+      "naive_mae": 1.035,
+      "naive_mape": 15.51,
+      "beats_baseline": false,
+      "improvement_pct": -87.8,
+      "n_observations": 21
+    },
+    "Azure": {
+      "prophet_mae": 0.9052,
+      "prophet_mape": 11.11,
+      "naive_mae": 1.6507,
+      "naive_mape": 19.47,
+      "beats_baseline": true,
+      "improvement_pct": 45.2,
+      "n_observations": 21
+    },
+    "AWS": {
+      "prophet_mae": 1.1334,
+      "prophet_mape": 17.0,
+      "naive_mae": 1.2144,
+      "naive_mape": 18.55,
+      "beats_baseline": true,
+      "improvement_pct": 6.7,
+      "n_observations": 21
+    },
+    "Apache Spark": {
+      "prophet_mae": 2.0129,
+      "prophet_mape": 19.69,
+      "naive_mae": 3.1033,
+      "naive_mape": 31.15,
+      "beats_baseline": true,
+      "improvement_pct": 35.1,
+      "n_observations": 21
+    },
+    "Predictive Modeling": {
+      "prophet_mae": 0.8023,
+      "prophet_mape": 10.26,
+      "naive_mae": 0.807,
+      "naive_mape": 10.07,
+      "beats_baseline": true,
+      "improvement_pct": 0.6,
+      "n_observations": 21
+    },
+    "Snowflake": {
+      "prophet_mae": 1.7772,
+      "prophet_mape": 24.27,
+      "naive_mae": 1.5076,
+      "naive_mape": 20.43,
+      "beats_baseline": false,
+      "improvement_pct": -17.9,
+      "n_observations": 21
+    },
+    "SQL Server": {
+      "prophet_mae": 1.515,
+      "prophet_mape": 38.28,
+      "naive_mae": 1.0868,
+      "naive_mape": 27.87,
+      "beats_baseline": false,
+      "improvement_pct": -39.4,
+      "n_observations": 21
+    },
+    "Looker": {
+      "prophet_mae": 0.7882,
+      "prophet_mape": 12.92,
+      "naive_mae": 0.5181,
+      "naive_mape": 9.22,
+      "beats_baseline": false,
+      "improvement_pct": -52.2,
+      "n_observations": 21
+    },
+    "Data Pipeline": {
+      "prophet_mae": 1.2053,
+      "prophet_mape": 19.19,
+      "naive_mae": 0.5425,
+      "naive_mape": 8.6,
+      "beats_baseline": false,
+      "improvement_pct": -122.2,
+      "n_observations": 21
+    },
+    "Salesforce": {
+      "prophet_mae": 0.4935,
+      "prophet_mape": 13.99,
+      "naive_mae": 0.5013,
+      "naive_mape": 13.52,
+      "beats_baseline": true,
+      "improvement_pct": 1.5,
+      "n_observations": 21
+    },
+    "Scala": {
+      "prophet_mae": 1.6539,
+      "prophet_mape": 27.36,
+      "naive_mae": 2.5344,
+      "naive_mape": 43.81,
+      "beats_baseline": true,
+      "improvement_pct": 34.7,
+      "n_observations": 21
+    },
+    "SAP": {
+      "prophet_mae": 1.881,
+      "prophet_mape": 78.59,
+      "naive_mae": 0.4085,
+      "naive_mape": 17.42,
+      "beats_baseline": false,
+      "improvement_pct": -360.5,
+      "n_observations": 21
+    },
+    "GCP": {
+      "prophet_mae": 1.1578,
+      "prophet_mape": 26.21,
+      "naive_mae": 0.8787,
+      "naive_mape": 16.16,
+      "beats_baseline": false,
+      "improvement_pct": -31.8,
+      "n_observations": 21
+    },
+    "Qlik": {
+      "prophet_mae": 0.585,
+      "prophet_mape": 30.29,
+      "naive_mae": 0.4305,
+      "naive_mape": 22.21,
+      "beats_baseline": false,
+      "improvement_pct": -35.9,
+      "n_observations": 21
+    },
+    "BigQuery": {
+      "prophet_mae": 0.4516,
+      "prophet_mape": 11.41,
+      "naive_mae": 0.4801,
+      "naive_mape": 11.8,
+      "beats_baseline": true,
+      "improvement_pct": 5.9,
+      "n_observations": 21
+    },
+    "Jira": {
+      "prophet_mae": 0.3683,
+      "prophet_mape": 19.13,
+      "naive_mae": 0.1992,
+      "naive_mape": 10.21,
+      "beats_baseline": false,
+      "improvement_pct": -84.9,
+      "n_observations": 21
+    },
+    "SPSS": {
+      "prophet_mae": 0.2931,
+      "prophet_mape": 15.43,
+      "naive_mae": 0.1707,
+      "naive_mape": 8.68,
+      "beats_baseline": false,
+      "improvement_pct": -71.7,
+      "n_observations": 21
+    },
+    "VBA": {
+      "prophet_mae": 0.9754,
+      "prophet_mape": 33.65,
+      "naive_mae": 0.8507,
+      "naive_mape": 50.8,
+      "beats_baseline": false,
+      "improvement_pct": -14.7,
+      "n_observations": 21
+    },
+    "Hadoop": {
+      "prophet_mae": 1.1844,
+      "prophet_mape": 33.76,
+      "naive_mae": 1.1999,
+      "naive_mape": 33.96,
+      "beats_baseline": true,
+      "improvement_pct": 1.3,
+      "n_observations": 21
+    },
+    "Java": {
+      "prophet_mae": 0.5285,
+      "prophet_mape": 19.27,
+      "naive_mae": 0.763,
+      "naive_mape": 27.33,
+      "beats_baseline": true,
+      "improvement_pct": 30.7,
+      "n_observations": 21
+    },
+    "Databricks": {
+      "prophet_mae": 0.6572,
+      "prophet_mape": 14.65,
+      "naive_mae": 1.7805,
+      "naive_mape": 40.61,
+      "beats_baseline": true,
+      "improvement_pct": 63.1,
+      "n_observations": 21
+    },
+    "Alteryx": {
+      "prophet_mae": 0.8582,
+      "prophet_mape": 53.28,
+      "naive_mae": 0.8717,
+      "naive_mape": 54.83,
+      "beats_baseline": true,
+      "improvement_pct": 1.6,
+      "n_observations": 21
+    },
+    "NoSQL": {
+      "prophet_mae": 1.0181,
+      "prophet_mape": 57.36,
+      "naive_mae": 0.9632,
+      "naive_mape": 51.57,
+      "beats_baseline": false,
+      "improvement_pct": -5.7,
+      "n_observations": 21
+    },
+    "Outlook": {
+      "prophet_mae": 0.2068,
+      "prophet_mape": 10.35,
+      "naive_mae": 0.1916,
+      "naive_mape": 8.67,
+      "beats_baseline": false,
+      "improvement_pct": -7.9,
+      "n_observations": 21
+    },
+    "SharePoint": {
+      "prophet_mae": 0.4796,
+      "prophet_mape": 27.81,
+      "naive_mae": 0.1741,
+      "naive_mape": 10.18,
+      "beats_baseline": false,
+      "improvement_pct": -175.5,
+      "n_observations": 21
+    },
+    "JavaScript": {
+      "prophet_mae": 0.6599,
+      "prophet_mape": 47.33,
+      "naive_mae": 0.507,
+      "naive_mape": 34.55,
+      "beats_baseline": false,
+      "improvement_pct": -30.2,
+      "n_observations": 21
+    },
+    "A/B Testing": {
+      "prophet_mae": 0.1776,
+      "prophet_mape": 8.1,
+      "naive_mae": 0.1475,
+      "naive_mape": 6.93,
+      "beats_baseline": false,
+      "improvement_pct": -20.4,
+      "n_observations": 21
+    },
+    "SSRS": {
+      "prophet_mae": 0.6298,
+      "prophet_mape": 25.87,
+      "naive_mae": 0.7985,
+      "naive_mape": 33.88,
+      "beats_baseline": true,
+      "improvement_pct": 21.1,
+      "n_observations": 21
+    },
+    "Redshift": {
+      "prophet_mae": 0.2182,
+      "prophet_mape": 11.06,
+      "naive_mae": 0.311,
+      "naive_mape": 13.41,
+      "beats_baseline": true,
+      "improvement_pct": 29.8,
+      "n_observations": 21
+    },
+    "NLP": {
+      "prophet_mae": 0.5903,
+      "prophet_mape": 28.44,
+      "naive_mae": 0.1242,
+      "naive_mape": 5.96,
+      "beats_baseline": false,
+      "improvement_pct": -375.1,
+      "n_observations": 21
+    },
+    "SSIS": {
+      "prophet_mae": 0.4707,
+      "prophet_mape": 28.44,
+      "naive_mae": 0.6661,
+      "naive_mape": 50.46,
+      "beats_baseline": true,
+      "improvement_pct": 29.3,
+      "n_observations": 21
+    },
+    "Hive": {
+      "prophet_mae": 1.3189,
+      "prophet_mape": 75.67,
+      "naive_mae": 0.7113,
+      "naive_mape": 35.35,
+      "beats_baseline": false,
+      "improvement_pct": -85.4,
+      "n_observations": 21
+    },
+    "dbt": {
+      "prophet_mae": 0.486,
+      "prophet_mape": 15.83,
+      "naive_mae": 1.0733,
+      "naive_mape": 40.44,
+      "beats_baseline": true,
+      "improvement_pct": 54.7,
+      "n_observations": 21
+    },
+    "Pandas": {
+      "prophet_mae": 0.3297,
+      "prophet_mape": 13.82,
+      "naive_mae": 0.3965,
+      "naive_mape": 16.12,
+      "beats_baseline": true,
+      "improvement_pct": 16.8,
+      "n_observations": 21
+    },
+    "Google Sheets": {
+      "prophet_mae": 0.5858,
+      "prophet_mape": 30.38,
+      "naive_mae": 1.0208,
+      "naive_mape": 62.51,
+      "beats_baseline": true,
+      "improvement_pct": 42.6,
+      "n_observations": 21
+    },
+    "Git": {
+      "prophet_mae": 0.62,
+      "prophet_mape": 17.78,
+      "naive_mae": 1.1344,
+      "naive_mape": 37.19,
+      "beats_baseline": true,
+      "improvement_pct": 45.3,
+      "n_observations": 21
+    },
+    "PostgreSQL": {
+      "prophet_mae": 0.6593,
+      "prophet_mape": 71.0,
+      "naive_mae": 0.3834,
+      "naive_mape": 33.93,
+      "beats_baseline": false,
+      "improvement_pct": -72.0,
+      "n_observations": 21
+    },
+    "MicroStrategy": {
+      "prophet_mae": 0.3365,
+      "prophet_mape": 100.0,
+      "naive_mae": 0.374,
+      "naive_mape": 111.84,
+      "beats_baseline": true,
+      "improvement_pct": 10.0,
+      "n_observations": 21
+    },
+    "MySQL": {
+      "prophet_mae": 0.3159,
+      "prophet_mape": 34.2,
+      "naive_mae": 0.2214,
+      "naive_mape": 20.71,
+      "beats_baseline": false,
+      "improvement_pct": -42.7,
+      "n_observations": 21
+    },
+    "Informatica": {
+      "prophet_mae": 0.3515,
+      "prophet_mape": 18.72,
+      "naive_mae": 0.3336,
+      "naive_mape": 15.89,
+      "beats_baseline": false,
+      "improvement_pct": -5.4,
+      "n_observations": 21
+    },
+    "DAX": {
+      "prophet_mae": 0.3554,
+      "prophet_mape": 17.79,
+      "naive_mae": 0.9404,
+      "naive_mape": 48.04,
+      "beats_baseline": true,
+      "improvement_pct": 62.2,
+      "n_observations": 21
+    },
+    "Microsoft Word": {
+      "prophet_mae": 0.7875,
+      "prophet_mape": 166.89,
+      "naive_mae": 0.4196,
+      "naive_mape": 79.36,
+      "beats_baseline": false,
+      "improvement_pct": -87.7,
+      "n_observations": 21
+    },
+    "Matplotlib": {
+      "prophet_mae": 0.9922,
+      "prophet_mape": 70.95,
+      "naive_mae": 0.99,
+      "naive_mape": 71.64,
+      "beats_baseline": false,
+      "improvement_pct": -0.2,
+      "n_observations": 21
+    },
+    "Visio": {
+      "prophet_mae": 0.1413,
+      "prophet_mape": 16.14,
+      "naive_mae": 0.16,
+      "naive_mape": 17.05,
+      "beats_baseline": true,
+      "improvement_pct": 11.7,
+      "n_observations": 21
+    },
+    "Cognos": {
+      "prophet_mae": 0.1256,
+      "prophet_mape": 13.9,
+      "naive_mae": 0.1251,
+      "naive_mape": 13.64,
+      "beats_baseline": false,
+      "improvement_pct": -0.4,
+      "n_observations": 21
+    },
+    "Deep Learning": {
+      "prophet_mae": 0.6748,
+      "prophet_mape": 57.01,
+      "naive_mae": 0.6173,
+      "naive_mape": 52.78,
+      "beats_baseline": false,
+      "improvement_pct": -9.3,
+      "n_observations": 21
+    },
+    "TensorFlow": {
+      "prophet_mae": 0.4387,
+      "prophet_mape": 31.1,
+      "naive_mae": 0.8556,
+      "naive_mape": 59.25,
+      "beats_baseline": true,
+      "improvement_pct": 48.7,
+      "n_observations": 21
+    },
+    "CI/CD": {
+      "prophet_mae": 0.4758,
+      "prophet_mape": 39.46,
+      "naive_mae": 0.0997,
+      "naive_mape": 8.02,
+      "beats_baseline": false,
+      "improvement_pct": -377.4,
+      "n_observations": 21
+    },
+    "NumPy": {
+      "prophet_mae": 0.1254,
+      "prophet_mape": 10.78,
+      "naive_mae": 0.1829,
+      "naive_mape": 14.02,
+      "beats_baseline": true,
+      "improvement_pct": 31.4,
+      "n_observations": 21
+    },
+    "Azure Data Factory": {
+      "prophet_mae": 0.2996,
+      "prophet_mape": 22.89,
+      "naive_mae": 0.4072,
+      "naive_mape": 25.19,
+      "beats_baseline": true,
+      "improvement_pct": 26.4,
+      "n_observations": 21
+    },
+    "Apache Airflow": {
+      "prophet_mae": 0.4429,
+      "prophet_mape": 35.79,
+      "naive_mae": 0.5842,
+      "naive_mape": 36.3,
+      "beats_baseline": true,
+      "improvement_pct": 24.2,
+      "n_observations": 21
+    },
+    "Confluence": {
+      "prophet_mae": 0.1359,
+      "prophet_mape": 17.36,
+      "naive_mae": 0.6578,
+      "naive_mape": 72.78,
+      "beats_baseline": true,
+      "improvement_pct": 79.3,
+      "n_observations": 21
+    },
+    "Scikit-learn": {
+      "prophet_mae": 0.0754,
+      "prophet_mape": 5.36,
+      "naive_mae": 0.3504,
+      "naive_mape": 26.18,
+      "beats_baseline": true,
+      "improvement_pct": 78.5,
+      "n_observations": 21
+    },
+    "Amazon S3": {
+      "prophet_mae": 0.7138,
+      "prophet_mape": 170.83,
+      "naive_mae": 0.4671,
+      "naive_mape": 63.03,
+      "beats_baseline": false,
+      "improvement_pct": -52.8,
+      "n_observations": 21
+    },
+    "Teradata": {
+      "prophet_mae": 0.121,
+      "prophet_mape": 18.51,
+      "naive_mae": 0.4313,
+      "naive_mape": 64.29,
+      "beats_baseline": true,
+      "improvement_pct": 72.0,
+      "n_observations": 21
+    },
+    "Linux": {
+      "prophet_mae": 0.4133,
+      "prophet_mape": 48.93,
+      "naive_mae": 0.353,
+      "naive_mape": 36.97,
+      "beats_baseline": false,
+      "improvement_pct": -17.1,
+      "n_observations": 21
+    },
+    "GitHub": {
+      "prophet_mae": 0.2613,
+      "prophet_mape": 17.1,
+      "naive_mae": 0.5798,
+      "naive_mape": 39.33,
+      "beats_baseline": true,
+      "improvement_pct": 54.9,
+      "n_observations": 21
+    },
+    "MATLAB": {
+      "prophet_mae": 0.22,
+      "prophet_mape": 35.77,
+      "naive_mae": 0.0536,
+      "naive_mape": 8.29,
+      "beats_baseline": false,
+      "improvement_pct": -310.5,
+      "n_observations": 21
+    },
+    "C++": {
+      "prophet_mae": 0.2024,
+      "prophet_mape": 18.43,
+      "naive_mae": 0.5172,
+      "naive_mape": 44.77,
+      "beats_baseline": true,
+      "improvement_pct": 60.9,
+      "n_observations": 21
+    },
+    "ELT": {
+      "prophet_mae": 0.2807,
+      "prophet_mape": 37.94,
+      "naive_mae": 0.3112,
+      "naive_mape": 42.75,
+      "beats_baseline": true,
+      "improvement_pct": 9.8,
+      "n_observations": 21
+    },
+    "Azure Synapse": {
+      "prophet_mae": 0.045,
+      "prophet_mape": 3.6,
+      "naive_mae": 0.064,
+      "naive_mape": 4.87,
+      "beats_baseline": true,
+      "improvement_pct": 29.7,
+      "n_observations": 21
+    },
+    "ggplot2": {
+      "prophet_mae": 0.8821,
+      "prophet_mape": 119.8,
+      "naive_mae": 0.9688,
+      "naive_mape": 58.44,
+      "beats_baseline": true,
+      "improvement_pct": 8.9,
+      "n_observations": 21
+    },
+    "Shell": {
+      "prophet_mae": 0.4482,
+      "prophet_mape": 130.1,
+      "naive_mae": 0.6675,
+      "naive_mape": 166.44,
+      "beats_baseline": true,
+      "improvement_pct": 32.8,
+      "n_observations": 21
+    },
+    "Domo": {
+      "prophet_mae": 0.3352,
+      "prophet_mape": 29.46,
+      "naive_mae": 0.3349,
+      "naive_mape": 29.45,
+      "beats_baseline": false,
+      "improvement_pct": -0.1,
+      "n_observations": 21
+    },
+    "Unix": {
+      "prophet_mae": 0.0605,
+      "prophet_mape": 10.07,
+      "naive_mae": 0.133,
+      "naive_mape": 18.84,
+      "beats_baseline": true,
+      "improvement_pct": 54.5,
+      "n_observations": 21
+    },
+    "PyTorch": {
+      "prophet_mae": 0.3847,
+      "prophet_mape": 30.96,
+      "naive_mae": 0.9289,
+      "naive_mape": 72.71,
+      "beats_baseline": true,
+      "improvement_pct": 58.6,
+      "n_observations": 21
+    },
+    "Apache Kafka": {
+      "prophet_mae": 0.6252,
+      "prophet_mape": 126.37,
+      "naive_mae": 0.6091,
+      "naive_mape": 126.69,
+      "beats_baseline": false,
+      "improvement_pct": -2.6,
+      "n_observations": 21
+    },
+    "Docker": {
+      "prophet_mae": 0.2906,
+      "prophet_mape": 55.39,
+      "naive_mae": 0.4785,
+      "naive_mape": 78.49,
+      "beats_baseline": true,
+      "improvement_pct": 39.3,
+      "n_observations": 21
+    },
+    "C#": {
+      "prophet_mae": 0.1701,
+      "prophet_mape": 24.17,
+      "naive_mae": 0.1786,
+      "naive_mape": 25.03,
+      "beats_baseline": true,
+      "improvement_pct": 4.8,
+      "n_observations": 21
+    },
+    "LLM": {
+      "prophet_mae": 0.2022,
+      "prophet_mape": 12.84,
+      "naive_mae": 0.2751,
+      "naive_mape": 17.57,
+      "beats_baseline": true,
+      "improvement_pct": 26.5,
+      "n_observations": 21
+    },
+    "Generative AI": {
+      "prophet_mae": 0.5128,
+      "prophet_mape": 34.18,
+      "naive_mae": 0.8634,
+      "naive_mape": 66.72,
+      "beats_baseline": true,
+      "improvement_pct": 40.6,
+      "n_observations": 21
+    },
+    "MongoDB": {
+      "prophet_mae": 0.4195,
+      "prophet_mape": 133.61,
+      "naive_mae": 0.3768,
+      "naive_mape": 120.58,
+      "beats_baseline": false,
+      "improvement_pct": -11.3,
+      "n_observations": 21
+    },
+    "Computer Vision": {
+      "prophet_mae": 0.2067,
+      "prophet_mape": 28.07,
+      "naive_mae": 0.409,
+      "naive_mape": 54.75,
+      "beats_baseline": true,
+      "improvement_pct": 49.5,
+      "n_observations": 21
+    },
+    "Kubernetes": {
+      "prophet_mae": 0.3146,
+      "prophet_mape": 68.34,
+      "naive_mae": 0.9149,
+      "naive_mape": 175.05,
+      "beats_baseline": true,
+      "improvement_pct": 65.6,
+      "n_observations": 21
+    },
+    "Crystal Reports": {
+      "prophet_mae": 0.3037,
+      "prophet_mape": 14.93,
+      "naive_mae": 0.2029,
+      "naive_mape": 36.33,
+      "beats_baseline": false,
+      "improvement_pct": -49.6,
+      "n_observations": 21
+    }
+  }
+}

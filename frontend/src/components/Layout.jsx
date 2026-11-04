@@ -1,9 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 
 const NAV = [
-  { to: "/", label: "Dashboard", end: true },
-  { to: "/skills", label: "Skill Explorer" },
-  { to: "/compare", label: "Compare" },
+  { to: "/", label: "Decide", end: true },
   { to: "/forecast", label: "Forecast" },
   { to: "/roles", label: "Roles" },
   { to: "/about", label: "Method" },
@@ -17,7 +15,7 @@ export default function Layout() {
           <div className="mr-2">
             <h1 className="text-base font-bold leading-tight">SkillTrend AI</h1>
             <p className="text-[11px] leading-tight text-slate-500">
-              Skill demand in data-analyst roles
+              What to learn next, and what to skip
             </p>
           </div>
 

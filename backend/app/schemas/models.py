@@ -19,6 +19,9 @@ class Health(BaseModel):
     service: str
     data_loaded: bool
     error: str | None = None
+    prophet_available: bool = True
+    forecast_method: str = "prophet"
+    note: str = ""
 
 
 class DataQuality(BaseModel):
@@ -169,4 +172,87 @@ class LiveStatus(BaseModel):
     months_collected: int = 0
     sources: dict[str, int] = {}
     last_fetched: datetime | None = None
+    caveat: str = ""
+
+
+# ---------------------------------------------------------------------
+# Decide engine
+# ---------------------------------------------------------------------
+
+class FamilyMember(BaseModel):
+    skill: str
+    historical_pct: float = Field(description="% of 2022-24 data-analyst postings")
+    current_pct: float = Field(description="% of current multi-role postings")
+    change_pts: float
+    direction: str
+    score: float
+    is_recommended: bool
+
+
+class FamilyInfo(BaseModel):
+    family: str
+    reason: str
+    recommended: str
+    rationale: str
+    warnings: list[str] = []
+    members: list[FamilyMember]
+
+
+class RelatedSkill(BaseModel):
+    skill: str
+    similarity: float
+    lift: float
+    conditional_pct: float = Field(
+        description="% of postings wanting the queried skill that also want this one"
+    )
+    note: str | None = None
+
+
+class SkillRelations(BaseModel):
+    skill: str
+    family: str | None = None
+    substitutes: list[RelatedSkill] = []
+    complements: list[RelatedSkill] = []
+
+
+class Verdict(BaseModel):
+    kind: str = Field(description="redundant | missing | declining | solid")
+    severity: str
+    headline: str
+    detail: str
+    skills: list[str] = []
+    evidence: list[dict] = []
+
+
+class StackAnalysis(BaseModel):
+    stack: list[str]
+    unknown: list[str] = []
+    verdicts: list[Verdict] = []
+    summary: str
+    caveat: str = ""
+
+
+# ---------------------------------------------------------------------
+# Upload
+# ---------------------------------------------------------------------
+
+class UploadSummary(BaseModel):
+    upload_id: str
+    filename: str
+    mode: str
+    uploaded_at: str
+    columns_used: dict
+    rows_in_file: int
+    rows_used: int
+    rows_dropped: dict
+    own_months: int
+    own_range: list[str]
+    total_months: int
+    forecast_origin: str
+    join_month: str | None = None
+    can_forecast: bool
+    hit_rate_pct: float
+    skills_found: int
+    skill_mentions: int
+    forecast_refused_because: str | None = None
     caveat: str = ""

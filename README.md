@@ -1,119 +1,151 @@
 # SkillTrend AI
 
-**Skill demand analysis and forecasting over 58,276 data-analyst job postings (Nov 2022 – Apr 2025).**
+**What should I learn next — and what am I wasting time on?**
 
-Extracts technical skills from raw job-description text, measures how demand for each
-skill moved month by month, and forecasts six months ahead — with every claim checked
-against a baseline and every weakness stated out loud.
+Analyses 58,276 real job postings to tell you which tools in your stack are
+redundant, which skills you're missing, and where demand is heading. Every
+recommendation shows the numbers behind it.
 
 ```
 Python · pandas · spaCy · Prophet · FastAPI   |   React · Vite · Tailwind · Recharts
 ```
 
-Everything is open source and runs locally. No paid services, no API keys.
+Open source, runs locally, no API keys, nothing paid.
 
 ---
 
-## What it found
+## What it tells you
 
-| | |
+Give it a stack:
+
+```
+Tableau · Power BI · Python · SQL
+```
+
+It answers:
+
+> **REDUNDANT** — You have 2 tools that do the same job: Tableau, Power BI
+> Keep **Power BI**: 27.5% of historical postings, 1.7% of current ones, rising
+> (+2.02p). Dropping Tableau frees up time without costing you coverage.
+>
+> **MISSING** — 5 skills commonly paired with your stack
+> **Statistical Analysis** in 52% of postings that want Python · **R** in 51% ·
+> **Microsoft Excel** in 46% of postings that want Power BI
+>
+> **DECLINING** — nothing in your stack is on the way out
+
+### Four pages
+
+| Page | Question |
 |---|---|
-| **82.2%** extraction hit rate | vs **78.6%** for the labels shipped with the dataset — using a *smaller* vocabulary (120 terms vs 134) |
-| **Generative AI: 0% → 5%** | of postings between Nov 2022 and Jul 2024. The dataset's own labels contain no AI terms at all and structurally cannot see this |
-| **8 of 29 months excluded** | an automated data-quality gate caught the scraper truncating descriptions in late 2024 |
-| **Prophet beats naive on 53% of skills** | mean absolute error 0.783 vs 0.811 percentage points — a real but small improvement |
-| **9 role families compared** | from a live feed of 4,500+ current postings — Python is in 78% of Data Scientist ads but 5% of Product Manager ads |
+| **Decide** | What should I learn, and what's redundant? |
+| **Forecast** | Where is this skill heading? *(plus: upload your own data)* |
+| **Roles** | What does my target role actually want? |
+| **Method** | How does this work, and where does it fail? |
 
-### Two findings worth reading the code for
+---
 
-**1. A measurement artifact that looked like a market crash.**
-The first trend report showed 29 skills declining and only 2 rising — an apparently
-dramatic result. It was false. From late 2024 the scraper began capturing truncated
-job descriptions (median ~1,600 characters vs ~3,000 before). Shorter text means
-fewer skills matched, so *every* skill's percentage fell at once.
-`scripts/04_aggregate.py` now applies an automatic month-quality gate; affected months
-are excluded from every conclusion but still drawn on the dashboard, shaded, so the
-gap is visible rather than hidden.
+## The finding that shaped the design
 
-**2. Sophisticated forecasting barely beats a trivial baseline.**
-Every forecast is backtested against "next month equals last month." Prophet wins on
-roughly half the skills, by a small margin. That is the honest answer for 21 noisy
-monthly observations, and the dashboard reports it per skill — including the skills
-where Prophet *loses*.
+**I tried to detect substitutes statistically. It failed, and the failure is
+documented in the code.**
 
-### Role comparison, from live data
+The hypothesis: substitutes *repel* — employers want Tableau **or** Power BI,
+so they should co-occur below chance. Job ads do the opposite. They write
+*"experience with Tableau, Power BI or Looker"*, so alternatives co-occur
+constantly.
 
-A second, separate data source answers *"do software engineers use Python
-differently from data analysts?"*
+Measured on known pairs:
 
-```
-Python     Data Analyst 38%  │ Data Scientist 78% │ Software Eng 33% │ Product 5%
-SQL        Data Analyst 46%  │ Data Engineer  75% │ DevOps        2% │ Product 3%
-Tableau    Data Analyst 19%  │ everyone else  ~0%
-Kubernetes DevOps       59%  │ Data Analyst    0%
-```
+| | similarity | lift | Jaccard | asymmetry |
+|---|---|---|---|---|
+| Known **substitutes** | 0.77 | 11.7 | 0.23 | 0.27 |
+| Known **complements** | 0.93 | 23.5 | **0.21** | 0.47 |
 
-Postings are pulled monthly from three free job-board APIs, classified into
-role families by title, and run through the same skill extractor. See
-**Live feed** below.
+TensorFlow/PyTorch (alternatives) scores 0.96 / 57. Docker/Kubernetes
+(partners) scores 0.97 / 69. **Statistically identical.** The difference is
+semantic — what the tools *do* — which co-occurrence cannot observe.
+
+So the problem was split along what each method can actually do:
+
+| Question | Method |
+|---|---|
+| "Are these alternatives?" | **Curated** — `skills/substitutes.yaml`, with the evidence above in its header |
+| "Which one should I pick?" | **Data** — demand, trend, forecast, stack fit |
+| "What am I missing?" | **Data** — co-occurrence (validated 6/6 complements, 3/3 unrelated) |
+
+Validation lives in `scripts/09_cooccurrence.py` and runs every time.
+
+### A second correction
+
+Ranking family members on the historical corpus alone produced *bad advice*:
+"learn Oracle", "learn SAS", "learn Informatica". Those are accurate **about
+that corpus** — 2022–24 data-analyst postings, heavy on legacy enterprise
+tooling — and wrong as guidance for 2026.
+
+Blending in the live multi-role feed fixed it:
+
+| Family | History only | Blended |
+|---|---|---|
+| Relational database | ❌ Oracle | ✅ **PostgreSQL** |
+| Deep learning | ❌ TensorFlow *(coin-flip tie)* | ✅ **PyTorch** |
+| ETL tooling | ❌ Informatica | ✅ **Fivetran** |
+
+And where the two corpora disagree, it says so:
+
+> ⚠ *Oracle ranks #1 in the 2022-24 corpus but #3 in current postings
+> (7.2% then, 1.0% now)*
+
+---
+
+## Three data sources, never mixed
+
+| | **Historical** | **Live** | **Your upload** |
+|---|---|---|---|
+| Source | Kaggle (lukebarousse) | 3 job-board APIs | your CSV |
+| Size | 58,276 postings | ~4,500, growing monthly | whatever you bring |
+| Span | Nov 2022 – Jul 2024 | Nov 2026 → | yours |
+| Roles | Data analyst only | 9 role families | yours |
+| Powers | trends, forecasts, co-occurrence | role comparison, current demand | your own forecast |
+
+Mixing them would produce numbers describing nobody, so every response says
+which source it came from.
 
 ---
 
 ## Pipeline
 
-Six scripts run offline and write Parquet; the API only reads. Fitting 88 Prophet
-models cannot happen inside an HTTP request, so training and serving are separated.
+Runs offline, writes Parquet. The API only reads.
 
 ```
 data/raw/gsearch_jobs.csv  (276 MB, 61,953 postings)
-        │
-  01_load.py        inspect schema, date coverage, null rates  →  the Data Gate
-        │
-  02_clean.py       parse dates · drop 3,177 duplicates · drop 500 stubs
-        │                                      →  clean_postings.parquet  (58,276)
-  03_extract.py     spaCy PhraseMatcher over 120 skills
-        │                                      →  posting_skills.parquet  (256,768)
-  04_aggregate.py   skill × month as % of postings · month-quality gate
-        │                                      →  monthly_demand.parquet
-  05_trends.py      rolling averages · period comparison · direction
-        │                                      →  skill_trends.parquet
-  06_forecast.py    Prophet + naive baseline backtest
-                                               →  forecasts.parquet + model_metrics.json
-        │
-   FastAPI  (loads Parquet once at startup)  →  React dashboard
+  01_load.py          inspect schema, dates, nulls  →  the Data Gate
+  02_clean.py         dedupe · dates · text         →  58,276 usable
+  03_extract.py       spaCy PhraseMatcher, 120 skills
+  04_aggregate.py     skill × month as % · month-quality gate
+  05_trends.py        rolling averages · rising/declining
+  06_forecast.py      Prophet + naive baseline backtest
+  09_cooccurrence.py  PPMI skill graph + the validation above
+  10_relations.py     curated families + data-driven ranking
 
-
-Separate track — live, multi-role:
-
-  07_fetch_live.py   Arbeitnow + Jobicy + Remotive APIs  →  live_postings.parquet
-        │                                                   (appended to monthly)
-  08_roles.py        classify role from title · extract skills
-                                                        →  role_profiles.parquet
+Live track (monthly, scheduled):
+  07_fetch_live.py    Arbeitnow · Jobicy · Remotive  →  live_postings.parquet
+  08_roles.py         title → role, skills → role profiles
 ```
 
 ### Why percentages, not counts
 
-Monthly posting volume swings from 3,646 down to 272. Raw counts would show every
-skill collapsing in late 2024 when only the data collection changed. Each skill is
-measured as a share of *that month's* postings, so the denominator moves with the
-numerator.
+Monthly posting volume swings from 3,646 down to 272. Raw counts would show
+every skill collapsing in late 2024 when only the data collection changed.
 
 ### Why a dictionary, not an LLM
 
-Skill extraction uses spaCy's `PhraseMatcher` over a curated YAML dictionary. It is
-deterministic, auditable (you can point at exactly why a skill was counted), free, and
-runs in 20 seconds over 58,000 documents.
+Deterministic, auditable, free, and 20 seconds over 58,000 documents. Regex was
+rejected because `\b` breaks on `C++`, `C#` and `CI/CD`; PhraseMatcher
+tokenises patterns and text identically.
 
-Regex was rejected because `\b` word boundaries break on `C++`, `C#` and `CI/CD`.
-PhraseMatcher tokenises patterns and text identically, so they line up.
-
-Three rules keep it precise — see `skills/skills.yaml`:
-
-| Rule | Example |
-|---|---|
-| **Longest match wins** | `no-sql` tokenises to `no`/`-`/`sql`; without this, NoSQL *and* SQL both match |
-| **Some names never match alone** | "Go" is also a verb. The dataset's own labels put Go at 3.77% — above Java — because they matched "go above and beyond" |
-| **Context blocklists** | "excel **at** communication" rejected; "advanced Excel skills" kept |
+**Result: 82.2% hit rate vs 78.6% for the dataset's own labels — with a
+*smaller* vocabulary (120 terms vs 134).**
 
 ---
 
@@ -121,75 +153,89 @@ Three rules keep it precise — see `skills/skills.yaml`:
 
 **Requirements:** Python 3.10+, Node 18+, a free [Kaggle](https://www.kaggle.com) account.
 
-### 1. Setup
-
 ```bash
 git clone <your-repo-url> && cd SkillTrend-AI
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Get the data
-
-`data/` is gitignored — the raw CSV is 276 MB and every processed file is
-regenerable. Put your Kaggle API token at `~/.kaggle/kaggle.json`
-(Kaggle → Settings → API → Create New Token), then:
+### Get the data
 
 ```bash
 chmod 600 ~/.kaggle/kaggle.json
-kaggle datasets download -d lukebarousse/data-analyst-job-postings-google-search -f gsearch_jobs.csv -p data/raw --unzip
+kaggle datasets download -d lukebarousse/data-analyst-job-postings-google-search \
+  -f gsearch_jobs.csv -p data/raw --unzip
 ```
 
-### 3. Run the pipeline
+### Run the pipeline
 
 ```bash
-python scripts/01_load.py       # inspect — changes nothing
-python scripts/02_clean.py      # ~1 min
-python scripts/03_extract.py    # ~20 sec
-python scripts/04_aggregate.py
-python scripts/05_trends.py
-python scripts/06_forecast.py   # ~3 min, fits 88 Prophet models
+python scripts/01_load.py        # inspect only
+python scripts/02_clean.py       # ~1 min
+python scripts/03_extract.py     # ~20 sec
+python scripts/04_aggregate.py && python scripts/05_trends.py
+python scripts/06_forecast.py    # ~3 min, 88 Prophet models
+python scripts/09_cooccurrence.py && python scripts/10_relations.py
 ```
 
 Optional — the live multi-role feed (no API key needed):
 
 ```bash
-python scripts/07_fetch_live.py   # ~2 min, fetches from 3 job-board APIs
-python scripts/08_roles.py        # builds the role profiles
+python scripts/07_fetch_live.py && python scripts/08_roles.py
 ```
 
-Everything else works without these; the Roles page simply reports that the
-feed has not been fetched.
-
-Each script prints a report of what it did and what changed.
-
-### 4. Run the app
-
-Two terminals:
+### Run the app
 
 ```bash
-source .venv/bin/activate && cd backend && uvicorn app.main:app --reload
-```
-```bash
-cd frontend && npm install && npm run dev
+cd backend && uvicorn app.main:app --reload     # :8000
+cd frontend && npm install && npm run dev       # :5173
 ```
 
-| | |
-|---|---|
-| Dashboard | http://localhost:5173 |
-| API docs (Swagger) | http://127.0.0.1:8000/docs |
+Dashboard `http://localhost:5173` · API docs `http://127.0.0.1:8000/docs`
 
-### 5. Tests
+### Tests
 
 ```bash
-python scripts/test_extractor.py   # 8 cases — skill extraction
+python scripts/test_extractor.py   #  8 cases — skill extraction
 python scripts/test_roles.py       # 26 cases — role classification
 ```
 
-The extractor tests cover alias normalisation, punctuation-heavy names (`C++`,
-`CI/CD`) and the ambiguity traps (`excel at`, `go above and beyond`). The role
-tests pin down rule *ordering* — without them "Senior Machine Learning Engineer"
-silently becomes a Software Engineer and nothing crashes.
+---
+
+## Deploying
+
+**The serving artifacts are committed** (~440 KB), so a deployed instance
+clones and starts — no pipeline run, no raw data download, no database.
+
+### Backend
+
+`render.yaml` is ready for Render's free tier. Or any host:
+
+```bash
+pip install -r backend/requirements.txt
+cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
+
+**`backend/requirements.txt` deliberately omits Prophet** — it's ~400 MB with
+its Stan binary, more than free tiers comfortably take. Batch forecasts are
+precomputed and committed, so the server doesn't need it. On-demand forecasts
+(uploads) fall back to an OLS trend **and say so in the response**. On this
+data the fallback scores MAE 1.8154 against Prophet's 1.8124 — practically
+identical, which is itself consistent with the baseline finding below.
+
+Set `SKILLTREND_CORS_ORIGINS` to your frontend URL. No code change needed.
+
+### Frontend
+
+```bash
+cd frontend && npm run build        # → dist/
+```
+
+`vercel.json` and `public/_redirects` are included so React Router paths don't
+404 on a static host. Set `VITE_API_URL` to your deployed API.
+
+⚠️ Uploads write to `data/uploads/`, which is ephemeral on free tiers — fine,
+since uploads are transient, but they won't survive a restart.
 
 ---
 
@@ -197,135 +243,79 @@ silently becomes a Software Engineer and nothing crashes.
 
 | Endpoint | Returns |
 |---|---|
-| `GET /api/health` | liveness + whether the data files loaded |
-| `GET /api/summary` | everything the dashboard landing page needs, in one call |
-| `GET /api/categories` | the 9 categories with distinct-posting coverage |
-| `GET /api/skills?category=&q=&direction=&sort=` | searchable skill list |
-| `GET /api/skills/{skill}` | one skill's summary |
-| `GET /api/trends?skills=Python,SQL` | monthly series for up to 8 skills |
-| `GET /api/trends/top?direction=rising` | ranked movers |
-| `GET /api/forecast/{skill}` | history + 6-month forecast + **backtest metrics** |
-| `GET /api/live/status` | is the live feed present, how fresh, how much |
-| `GET /api/roles` | all role families with their top skills |
-| `GET /api/roles/matrix` | the skill × role grid |
-| `GET /api/roles/{role}` | one role's profile (`?sort=lift` for distinctive skills) |
+| `GET /api/health` | liveness, data status, which forecasting model is active |
+| `GET /api/summary` | headline stats + data-quality report |
+| `GET /api/skills` | searchable skill list |
+| `GET /api/trends?skills=…` | monthly series, up to 8 skills |
+| `GET /api/forecast/{skill}?dataset=` | history + forecast + **backtest metrics** |
+| `GET /api/families` | substitute families with a recommended member |
+| `GET /api/related/{skill}` | substitutes + complements, scored |
+| `POST /api/stack/analyse` | your stack → verdicts with evidence |
+| `POST /api/upload` | CSV in → analysed dataset |
+| `GET /api/roles` · `/api/roles/matrix` · `/api/roles/{role}` | role profiles |
+| `GET /api/live/status` | live-feed freshness |
 
-Every forecast response carries its own accuracy metrics, so the UI cannot draw a
-prediction without also being handed the evidence for how much to trust it.
-
----
-
-## Dashboard
-
-| Page | |
-|---|---|
-| **Dashboard** | headline stats, top skills, rising/declining movers, data-quality note |
-| **Skill Explorer** | all 120 skills, filterable by category / direction / name |
-| **Compare** | up to 6 skills side by side, with excluded months shaded |
-| **Forecast** | history (solid) vs forecast (dashed + uncertainty band), with backtest scores |
-| **Roles** | skill × role heatmap, per-role profiles, live-feed status |
-| **Method** | how it works and where it falls short |
+Every forecast response carries its own accuracy metrics, so the UI cannot draw
+a prediction without the evidence for trusting it.
 
 ---
-
-## Live feed
-
-Job boards list only **current** openings, so no single download can give you
-history — it has to be accumulated. `.github/workflows/fetch-jobs.yml` runs on
-the 1st of each month, fetches, rebuilds the role profiles, and commits the
-result. This is why `data/live/` is the one data directory **not** gitignored:
-without the commit, every run would start from an empty file.
-
-| Source | Per run | Key needed |
-|---|---|---|
-| Arbeitnow | ~4,300 (paginated) | none |
-| Jobicy | 200 (2 tech industries) | none |
-| Remotive | 10 (capped without auth) | none |
-
-### Why APIs and not a scraper
-
-The original plan was a Selenium/BeautifulSoup scraper over Google job results.
-That was rejected: Google serves CAPTCHAs to automated traffic (defeating them
-is both against their terms and out of scope), Apify is a paid service, and a
-Selenium cron job breaks within weeks. These three APIs are published by the job
-boards themselves, are free, need no key, and return the full description.
-
-Two things found while building it, both now documented in the code:
-
-- Arbeitnow's `created_at` is a **Unix timestamp**, not a date string — parsing
-  it as text silently produced `1970-01-01` for every row.
-- Arbeitnow's documented `search` parameter is **ignored**; `search=engineer`
-  and `search=nurse` return byte-identical results. Role filtering therefore
-  happens after the fetch, not during it.
 
 ## Limitations
 
-Stated plainly, because a project that says what it does not know is worth more than
-one that looks impressive and cannot be defended.
-
-- **One role.** Every posting is a data-analyst ad. Web and DevOps skills barely
-  appear — this is not a picture of the whole tech market. The dataset was chosen for
-  its 29 months of continuous history; broader datasets had only 6–9 months, which
-  cannot support forecasting.
-- **One source.** Scraped from Google job search results. Whatever that misses, this misses.
-- **Scrape time, not posting time.** The date is when the collector saw the ad.
-  Fine at monthly granularity, not exact.
-- **A dictionary cannot find what it does not list.** A skill absent from the 120
-  terms reads as 0% — indistinguishable from genuinely unwanted.
-- **Mentions are not requirements.** "Python a plus" and "expert Python required"
-  count identically.
-- **Forecasts are weak.** 21 monthly observations is very little history. Yearly
-  seasonality is deliberately switched off (1.75 cycles is not enough to fit a yearly
-  pattern without fitting noise). Read the forecasts as a direction, not a number.
-
-**Specific to the role comparison:**
-
-- **Different population.** The live feed is mostly European and mostly remote;
-  the historical corpus is US data-analyst ads. Compare roles *against each
-  other*, never against the historical figures. The API and UI both say so.
-- **Small per role.** Software Engineer has 791 postings behind it; Data Analyst
-  has 37. Roles under 100 are flagged *low confidence* in the UI and roles under
-  30 are dropped entirely.
-- **No role trends yet.** The feed began in Nov 2026 and has no history. It
-  accumulates monthly; until several months exist, there is nothing honest to
-  plot. `role_monthly.parquet` is being collected for exactly that.
-- **~70% of the live feed is not tech at all** — Arbeitnow is a general job
-  board. Those postings are classified `Other` and excluded from every profile.
+- **One role in the historical data.** Every posting is a data-analyst ad, so
+  gap advice is strongest for data tooling and weakest for web/DevOps. The
+  dataset was chosen for its 29 months of continuous history; broader datasets
+  had only 6–9 months, which cannot support forecasting.
+- **Substitute families are human-curated**, because the data provably couldn't
+  derive them. The page says so, with the numbers.
+- **Forecasts barely beat a naive baseline** — Prophet wins on 53% of skills,
+  MAE 0.783 vs 0.811. Every forecast reports its own result, including losses.
+- **Role profiles are small.** Software Engineer has ~790 postings; Data
+  Analyst has 37. Under 100 is flagged low-confidence, under 30 is dropped.
+- **~70% of the live feed isn't tech.** Arbeitnow is a general job board; those
+  are classified `Other` and excluded.
+- **Uploads under 12 months get no forecast** — refused with a reason, not
+  silently faked.
+- **A dictionary can't find what it doesn't list.** A skill absent from the 120
+  reads as 0%, indistinguishable from unwanted.
 
 ## Possible next steps
 
-- Fine-tune a transformer NER for skill extraction using the dictionary as a weak
-  supervision labeller, and compare F1 against the rule-based baseline
-- Add Adzuna (free, needs a signup key) to widen the live feed beyond remote and
-  European roles
-- Once ~12 months of live data have accumulated, extend trends and forecasting to
-  the role dimension
-- Deploy so the dashboard is reachable without running it locally
+- Fine-tune a transformer NER using the dictionary as a weak-supervision
+  labeller; compare F1 against the rule-based baseline
+- Add Adzuna to widen the live feed beyond remote/European roles
+- Once ~12 months of live data accumulate, extend trends to the role dimension
 
 ---
 
-## Project layout
+## Layout
 
 ```
 backend/app/
-  main.py              FastAPI app, CORS, router registration — nothing else
-  core/config.py       every path in one place
-  services/            loads Parquet once at startup, serves from memory
-  schemas/             Pydantic response models
-  api/routes/          summary · skills · trends · forecast
+  main.py                  app + CORS + routers only
+  core/config.py           every path; CORS origins from env
+  services/
+    data_store.py          loads Parquet once at boot
+    advisor.py             the Decide logic
+    forecast_service.py    on-demand fit, Prophet optional
+    upload_service.py      validate → clean → extract → merge
+    extraction.py          shares the pipeline's SkillExtractor
+  api/routes/              summary · skills · trends · forecast · roles · stack · upload
 frontend/src/
-  services/api.js      every backend call
-  hooks/useApi.js      loading / error / data for every page
-  components/          Layout + shared UI
-  pages/               Dashboard · SkillExplorer · Compare · Forecast · About
-scripts/               01_load → 06_forecast (historical pipeline)
-                       07_fetch_live, 08_roles (live multi-role track)
-                       skill_extractor, roles, and their tests
-.github/workflows/     monthly scheduled fetch
-skills/skills.yaml     the 120-skill dictionary with aliases and ambiguity rules
-data/                  raw · processed · forecasts   (gitignored, regenerable)
-docs/                  phase write-ups
+  pages/                   Decide · Forecast · Roles · About
+  components/              Layout · UploadPanel · ui
+  services/api.js          every backend call; VITE_API_URL aware
+scripts/                   01→10 pipeline, extractor, role classifier, tests
+skills/
+  skills.yaml              120 skills, aliases, ambiguity rules
+  substitutes.yaml         curated families + why they're curated
+data/
+  raw/ processed/          gitignored (large, regenerable)
+  live/                    COMMITTED — cannot be regenerated
+  uploads/                 gitignored, transient
+.github/workflows/         monthly live fetch
+render.yaml                backend deploy
 ```
 
 **Data:** [Data Analyst Job Postings](https://www.kaggle.com/datasets/lukebarousse/data-analyst-job-postings-google-search)
-by Luke Barousse.
+by Luke Barousse · live feed from Arbeitnow, Jobicy and Remotive.

@@ -1,0 +1,692 @@
+{
+  "complement_similarity_threshold": 0.8,
+  "weights": {
+    "demand_historical": 0.28,
+    "demand_live": 0.32,
+    "trend": 0.22,
+    "reach": 0.13,
+    "risk_penalty": 0.05
+  },
+  "live_signal_used": true,
+  "caveat": "Historical demand is 2022-24 data-analyst postings; live demand is current postings across 9 tech roles, dominated by Software Engineer. A role-specific tool (a BI product, say) can score low on live purely because of that role mix, not because it is dying. Compare members WITHIN a family -- that comparison is fair, because every member faces the same role mix.",
+  "families": {
+    "BI & dashboarding": {
+      "reason": "All build dashboards over a warehouse. Employers name whichever one they already own. The transferable skill is dimensional thinking, not the vendor's menus.",
+      "recommended": "Power BI",
+      "members": [
+        {
+          "skill": "Power BI",
+          "demand_pct": 27.482199653510076,
+          "live_pct": 1.6986706056129988,
+          "recent_pct": 30.37177063642092,
+          "change_pts": 2.0199481324589534,
+          "direction": "stable",
+          "volatility": 2.056837764223602,
+          "reach": 0.07516683494293239,
+          "score": 0.8402,
+          "rank_hist": 2,
+          "rank_live": 1,
+          "disagreement": 1
+        },
+        {
+          "skill": "Tableau",
+          "demand_pct": 28.79291601356165,
+          "live_pct": 1.4771048744460855,
+          "recent_pct": 29.090527200168033,
+          "change_pts": -0.4023412625894949,
+          "direction": "stable",
+          "volatility": 2.454363953126205,
+          "reach": 0.044784274193548385,
+          "score": 0.5491,
+          "rank_hist": 1,
+          "rank_live": 2,
+          "disagreement": 1
+        },
+        {
+          "skill": "Looker",
+          "demand_pct": 5.30898762963508,
+          "live_pct": 1.4771048744460855,
+          "recent_pct": 5.797101449275362,
+          "change_pts": 0.7891775190059489,
+          "direction": "rising",
+          "volatility": 0.7808845636930702,
+          "reach": 0.0713304945054945,
+          "score": 0.5065,
+          "rank_hist": 3,
+          "rank_live": 2,
+          "disagreement": 1
+        },
+        {
+          "skill": "Qlik",
+          "demand_pct": 3.160619854262357,
+          "live_pct": 0.0,
+          "recent_pct": 2.142407057340895,
+          "change_pts": -0.9162300266527659,
+          "direction": "declining",
+          "volatility": 0.9073938888453328,
+          "reach": 0.09872678571428573,
+          "score": 0.1412,
+          "rank_hist": 4,
+          "rank_live": 6,
+          "disagreement": 2
+        },
+        {
+          "skill": "Domo",
+          "demand_pct": 0.8701052437867783,
+          "live_pct": 0.0,
+          "recent_pct": 1.0712035286704475,
+          "change_pts": 0.056940454185502976,
+          "direction": "stable",
+          "volatility": 0.2398753628291066,
+          "reach": 0.05988810256410257,
+          "score": 0.1146,
+          "rank_hist": 7,
+          "rank_live": 6,
+          "disagreement": 1
+        },
+        {
+          "skill": "MicroStrategy",
+          "demand_pct": 1.5686733032251952,
+          "live_pct": 0.0,
+          "recent_pct": 0.33606385213190504,
+          "change_pts": -0.282002708882358,
+          "direction": "stable",
+          "volatility": 1.804435774379441,
+          "reach": 0.0716624213836478,
+          "score": 0.0887,
+          "rank_hist": 5,
+          "rank_live": 6,
+          "disagreement": 1
+        },
+        {
+          "skill": "Cognos",
+          "demand_pct": 1.242258401370215,
+          "live_pct": 0.0,
+          "recent_pct": 1.0712035286704475,
+          "change_pts": -0.038146709047460536,
+          "direction": "stable",
+          "volatility": 0.292220281372017,
+          "reach": 0.046027325581395356,
+          "score": 0.0772,
+          "rank_hist": 6,
+          "rank_live": 6,
+          "disagreement": 0
+        },
+        {
+          "skill": "Crystal Reports",
+          "demand_pct": 0.5028471980622705,
+          "live_pct": 0.0,
+          "recent_pct": 0.1260239445494644,
+          "change_pts": -0.3018682899988716,
+          "direction": "stable",
+          "volatility": 0.2750962050022399,
+          "reach": 0.043815729585006694,
+          "score": 0.0452,
+          "rank_hist": 8,
+          "rank_live": 6,
+          "disagreement": 2
+        }
+      ],
+      "warnings": [
+        "Qlik ranks #4 in the 2022-24 corpus but #6 in current postings (3.2% then, 0.0% now)",
+        "Crystal Reports ranks #8 in the 2022-24 corpus but #6 in current postings (0.5% then, 0.0% now)"
+      ],
+      "rationale": "Power BI: 27.5% of 2022-24 postings, 1.7% of current postings, stable."
+    },
+    "Cloud platform": {
+      "reason": "Same primitives under different names. Learn one properly; the second takes weeks, not months.",
+      "recommended": "AWS",
+      "members": [
+        {
+          "skill": "AWS",
+          "demand_pct": 6.536031064371625,
+          "live_pct": 17.79911373707533,
+          "recent_pct": 7.246376811594203,
+          "change_pts": -0.4715312708146726,
+          "direction": "stable",
+          "volatility": 1.1250638009781637,
+          "reach": 0.05616950000000001,
+          "score": 0.5892,
+          "rank_hist": 2,
+          "rank_live": 1,
+          "disagreement": 1
+        },
+        {
+          "skill": "Azure",
+          "demand_pct": 6.657015568541188,
+          "live_pct": 9.970457902511077,
+          "recent_pct": 8.275572358748162,
+          "change_pts": 0.002989157480334015,
+          "direction": "stable",
+          "volatility": 1.5065851792696712,
+          "reach": 0.09040189969604863,
+          "score": 0.4756,
+          "rank_hist": 1,
+          "rank_live": 2,
+          "disagreement": 1
+        },
+        {
+          "skill": "GCP",
+          "demand_pct": 3.5087622240895087,
+          "live_pct": 9.896602658788774,
+          "recent_pct": 4.725897920604915,
+          "change_pts": 0.32019269081093693,
+          "direction": "stable",
+          "volatility": 1.1423241147592675,
+          "reach": 0.09634128170289855,
+          "score": 0.3477,
+          "rank_hist": 3,
+          "rank_live": 3,
+          "disagreement": 0
+        }
+      ],
+      "warnings": [],
+      "rationale": "AWS: 6.5% of 2022-24 postings, 17.8% of current postings, stable."
+    },
+    "Cloud data warehouse": {
+      "reason": "Columnar warehouses queried with SQL. The SQL transfers completely.",
+      "recommended": "Snowflake",
+      "members": [
+        {
+          "skill": "Snowflake",
+          "demand_pct": 6.231492449816325,
+          "live_pct": 3.9881831610044314,
+          "recent_pct": 6.994328922495274,
+          "change_pts": 0.89290261504678,
+          "direction": "rising",
+          "volatility": 1.3136096618049666,
+          "reach": 0.09626038461538461,
+          "score": 0.8284,
+          "rank_hist": 1,
+          "rank_live": 1,
+          "disagreement": 0
+        },
+        {
+          "skill": "BigQuery",
+          "demand_pct": 3.063590074302548,
+          "live_pct": 1.6986706056129988,
+          "recent_pct": 3.6546943919344677,
+          "change_pts": 0.675296610634943,
+          "direction": "rising",
+          "volatility": 0.864463402009525,
+          "reach": 0.08765763736263736,
+          "score": 0.4466,
+          "rank_hist": 2,
+          "rank_live": 2,
+          "disagreement": 0
+        },
+        {
+          "skill": "Azure Synapse",
+          "demand_pct": 0.9122128384403295,
+          "live_pct": 0.14771048744460857,
+          "recent_pct": 1.2392354547364,
+          "change_pts": 0.11403735647966462,
+          "direction": "stable",
+          "volatility": 0.32276264731455495,
+          "reach": 0.14040911835748793,
+          "score": 0.2184,
+          "rank_hist": 5,
+          "rank_live": 4,
+          "disagreement": 1
+        },
+        {
+          "skill": "Redshift",
+          "demand_pct": 1.9113103734712145,
+          "live_pct": 0.5908419497784343,
+          "recent_pct": 2.163411048099139,
+          "change_pts": -0.0869851484143318,
+          "direction": "stable",
+          "volatility": 0.3768215785107233,
+          "reach": 0.10432546153846155,
+          "score": 0.2085,
+          "rank_hist": 3,
+          "rank_live": 3,
+          "disagreement": 0
+        },
+        {
+          "skill": "Teradata",
+          "demand_pct": 1.058644764474229,
+          "live_pct": 0.0,
+          "recent_pct": 0.7561436672967864,
+          "change_pts": -0.30566298880463993,
+          "direction": "stable",
+          "volatility": 0.3133601998208372,
+          "reach": 0.06019489583333334,
+          "score": 0.0077,
+          "rank_hist": 4,
+          "rank_live": 5,
+          "disagreement": 1
+        }
+      ],
+      "warnings": [],
+      "rationale": "Snowflake: 6.2% of 2022-24 postings, 4.0% of current postings, rising (+0.89 points)."
+    },
+    "Relational database": {
+      "reason": "ANSI SQL is the real skill and it is portable. Dialect differences are a day of reading.",
+      "recommended": "PostgreSQL",
+      "members": [
+        {
+          "skill": "PostgreSQL",
+          "demand_pct": 1.596345966754944,
+          "live_pct": 9.748892171344165,
+          "recent_pct": 1.1972274732199117,
+          "change_pts": -0.5301893255122594,
+          "direction": "declining",
+          "volatility": 0.4215946699971595,
+          "reach": 0.10337670995670996,
+          "score": 0.5713,
+          "rank_hist": 3,
+          "rank_live": 1,
+          "disagreement": 2
+        },
+        {
+          "skill": "Oracle",
+          "demand_pct": 7.1746481798912365,
+          "live_pct": 0.9601181683899557,
+          "recent_pct": 5.902121403066583,
+          "change_pts": 0.4029137960935243,
+          "direction": "stable",
+          "volatility": 2.2001385422188955,
+          "reach": 0.08129834016393443,
+          "score": 0.4932,
+          "rank_hist": 1,
+          "rank_live": 3,
+          "disagreement": 2
+        },
+        {
+          "skill": "MySQL",
+          "demand_pct": 1.5112029427066012,
+          "live_pct": 1.8463810930576072,
+          "recent_pct": 1.1132115101869355,
+          "change_pts": -0.36063951992399956,
+          "direction": "stable",
+          "volatility": 0.3263384609410378,
+          "reach": 0.09608044258373205,
+          "score": 0.2744,
+          "rank_hist": 4,
+          "rank_live": 2,
+          "disagreement": 2
+        },
+        {
+          "skill": "SQL Server",
+          "demand_pct": 5.854585280592128,
+          "live_pct": 0.8124076809453471,
+          "recent_pct": 4.158790170132325,
+          "change_pts": -1.6415267870784511,
+          "direction": "declining",
+          "volatility": 1.0800217419323013,
+          "reach": 0.07220342261904761,
+          "score": 0.1946,
+          "rank_hist": 2,
+          "rank_live": 4,
+          "disagreement": 2
+        }
+      ],
+      "warnings": [
+        "PostgreSQL ranks #3 in the 2022-24 corpus but #1 in current postings (1.6% then, 9.7% now)",
+        "Oracle ranks #1 in the 2022-24 corpus but #3 in current postings (7.2% then, 1.0% now)",
+        "MySQL ranks #4 in the 2022-24 corpus but #2 in current postings (1.5% then, 1.8% now)",
+        "SQL Server ranks #2 in the 2022-24 corpus but #4 in current postings (5.9% then, 0.8% now)"
+      ],
+      "rationale": "PostgreSQL: 1.6% of 2022-24 postings, 9.7% of current postings, declining (-0.53 points)."
+    },
+    "Deep learning framework": {
+      "reason": "Same concepts, different syntax. PyTorch dominates research, TensorFlow lingers in older production systems.",
+      "recommended": "PyTorch",
+      "members": [
+        {
+          "skill": "PyTorch",
+          "demand_pct": 0.8125197896213379,
+          "live_pct": 3.323485967503693,
+          "recent_pct": 1.3232514177693762,
+          "change_pts": -0.3249260782686587,
+          "direction": "stable",
+          "volatility": 0.575320953239769,
+          "reach": 0.11750772300469484,
+          "score": 0.62,
+          "rank_hist": 2,
+          "rank_live": 1,
+          "disagreement": 1
+        },
+        {
+          "skill": "TensorFlow",
+          "demand_pct": 1.184398889575465,
+          "live_pct": 0.8862629246676514,
+          "recent_pct": 1.5122873345935728,
+          "change_pts": -0.4369995116821799,
+          "direction": "stable",
+          "volatility": 0.507294800278699,
+          "reach": 0.07459938596491228,
+          "score": 0.28,
+          "rank_hist": 1,
+          "rank_live": 2,
+          "disagreement": 1
+        }
+      ],
+      "warnings": [],
+      "rationale": "PyTorch: 0.8% of 2022-24 postings, 3.3% of current postings, stable."
+    },
+    "Statistics package": {
+      "reason": "Legacy licensed tools serving the same purpose as Python or R. Usually required by an employer's existing estate, not chosen.",
+      "recommended": "SAS",
+      "members": [
+        {
+          "skill": "SAS",
+          "demand_pct": 8.954256774951546,
+          "live_pct": 0.07385524372230429,
+          "recent_pct": 7.89750052509977,
+          "change_pts": 0.49654965346744007,
+          "direction": "stable",
+          "volatility": 2.1186342562310183,
+          "reach": 0.0884405303030303,
+          "score": 0.5978,
+          "rank_hist": 1,
+          "rank_live": 2,
+          "disagreement": 1
+        },
+        {
+          "skill": "MATLAB",
+          "demand_pct": 0.9906966377971774,
+          "live_pct": 1.329394387001477,
+          "recent_pct": 0.630119722747322,
+          "change_pts": -0.4158390728152771,
+          "direction": "stable",
+          "volatility": 0.356550184720762,
+          "reach": 0.0781597843137255,
+          "score": 0.3734,
+          "rank_hist": 3,
+          "rank_live": 1,
+          "disagreement": 2
+        },
+        {
+          "skill": "SPSS",
+          "demand_pct": 3.0230428719422675,
+          "live_pct": 0.0,
+          "recent_pct": 1.8273471959672338,
+          "change_pts": -0.7083104902451274,
+          "direction": "declining",
+          "volatility": 1.5737326346874843,
+          "reach": 0.0843958751393534,
+          "score": 0.1158,
+          "rank_hist": 2,
+          "rank_live": 3,
+          "disagreement": 1
+        }
+      ],
+      "warnings": [
+        "MATLAB ranks #3 in the 2022-24 corpus but #1 in current postings (1.0% then, 1.3% now)"
+      ],
+      "rationale": "SAS: 9.0% of 2022-24 postings, 0.1% of current postings, stable."
+    },
+    "Python plotting": {
+      "reason": "Interchangeable charting libraries. Knowing one means reading the docs for the next.",
+      "recommended": "Matplotlib",
+      "members": [
+        {
+          "skill": "Matplotlib",
+          "demand_pct": 1.2778639514229944,
+          "live_pct": 0.0,
+          "recent_pct": 1.7853392144507456,
+          "change_pts": 0.43827106865042853,
+          "direction": "stable",
+          "volatility": 0.7470892054919236,
+          "reach": 0.12812855180533753,
+          "score": 0.6401,
+          "rank_hist": 1,
+          "rank_live": 2,
+          "disagreement": 1
+        },
+        {
+          "skill": "ggplot2",
+          "demand_pct": 0.8903788252591127,
+          "live_pct": 0.0,
+          "recent_pct": 1.218231463978156,
+          "change_pts": 0.7110999267356837,
+          "direction": "rising",
+          "volatility": 0.7100728836142257,
+          "reach": 0.13448712871287127,
+          "score": 0.6335,
+          "rank_hist": 2,
+          "rank_live": 2,
+          "disagreement": 0
+        },
+        {
+          "skill": "Seaborn",
+          "demand_pct": 0.28935407818974596,
+          "live_pct": 0.0,
+          "recent_pct": 0.2730518798571729,
+          "change_pts": -0.18653607576881764,
+          "direction": "stable",
+          "volatility": 0.1700082442891851,
+          "reach": 0.11862495629370629,
+          "score": 0.2144,
+          "rank_hist": 4,
+          "rank_live": 2,
+          "disagreement": 2
+        },
+        {
+          "skill": "Plotly",
+          "demand_pct": 0.323059410909892,
+          "live_pct": 0.0,
+          "recent_pct": 0.1890359168241966,
+          "change_pts": -0.31809562041827566,
+          "direction": "stable",
+          "volatility": 0.17300215041617964,
+          "reach": 0.1146014316239316,
+          "score": 0.1693,
+          "rank_hist": 3,
+          "rank_live": 2,
+          "disagreement": 1
+        }
+      ],
+      "warnings": [
+        "Seaborn ranks #4 in the 2022-24 corpus but #2 in current postings (0.3% then, 0.0% now)"
+      ],
+      "rationale": "Matplotlib: 1.3% of 2022-24 postings, 0.0% of current postings, stable."
+    },
+    "NoSQL store": {
+      "reason": "Different data models, but rarely do employers want several. Pick the one your target stack uses.",
+      "recommended": "MongoDB",
+      "members": [
+        {
+          "skill": "MongoDB",
+          "demand_pct": 0.5577599579851129,
+          "live_pct": 1.6248153618906942,
+          "recent_pct": 0.39907582440663725,
+          "change_pts": -0.34577362091824393,
+          "direction": "stable",
+          "volatility": 0.20224989260328682,
+          "reach": 0.10950051587301587,
+          "score": 0.6,
+          "rank_hist": 1,
+          "rank_live": 1,
+          "disagreement": 0
+        },
+        {
+          "skill": "Cassandra",
+          "demand_pct": 0.36085366664507895,
+          "live_pct": 0.5908419497784343,
+          "recent_pct": 0.33606385213190504,
+          "change_pts": -0.23445912726587625,
+          "direction": "stable",
+          "volatility": 0.24298540842814337,
+          "reach": 0.1508983169129721,
+          "score": 0.3,
+          "rank_hist": 2,
+          "rank_live": 2,
+          "disagreement": 0
+        }
+      ],
+      "warnings": [],
+      "rationale": "MongoDB: 0.6% of 2022-24 postings, 1.6% of current postings, stable."
+    },
+    "Git hosting": {
+      "reason": "The skill is Git itself. The hosting platform is an afternoon.",
+      "recommended": "GitHub",
+      "members": [
+        {
+          "skill": "GitHub",
+          "demand_pct": 1.0273502690426062,
+          "live_pct": 7.385524372230429,
+          "recent_pct": 1.4282713715605966,
+          "change_pts": 0.23968183114855224,
+          "direction": "stable",
+          "volatility": 0.317672267591462,
+          "reach": 0.09754904761904762,
+          "score": 0.9,
+          "rank_hist": 1,
+          "rank_live": 1,
+          "disagreement": 0
+        },
+        {
+          "skill": "GitLab",
+          "demand_pct": 0.2589755115945546,
+          "live_pct": 3.2496307237813884,
+          "recent_pct": 0.33606385213190504,
+          "change_pts": 0.05080236243301439,
+          "direction": "stable",
+          "volatility": 0.13100182455046389,
+          "reach": 0.09335008547008547,
+          "score": 0.0,
+          "rank_hist": 2,
+          "rank_live": 2,
+          "disagreement": 0
+        }
+      ],
+      "warnings": [],
+      "rationale": "GitHub: 1.0% of 2022-24 postings, 7.4% of current postings, stable."
+    },
+    "ETL tooling": {
+      "reason": "Drag-and-drop or managed ingestion tools. Largely being displaced by SQL-first tooling such as dbt.",
+      "recommended": "Fivetran",
+      "members": [
+        {
+          "skill": "Fivetran",
+          "demand_pct": 0.33317295056443674,
+          "live_pct": 0.51698670605613,
+          "recent_pct": 0.21003990758244068,
+          "change_pts": -0.13861302427175903,
+          "direction": "stable",
+          "volatility": 0.18378341939955614,
+          "reach": 0.1092249539170507,
+          "score": 0.5408,
+          "rank_hist": 5,
+          "rank_live": 1,
+          "disagreement": 4
+        },
+        {
+          "skill": "Informatica",
+          "demand_pct": 1.5010286579306213,
+          "live_pct": 0.14771048744460857,
+          "recent_pct": 1.6803192606595254,
+          "change_pts": 0.25401181216507207,
+          "direction": "stable",
+          "volatility": 0.3083831274293354,
+          "reach": 0.06778639344262297,
+          "score": 0.4712,
+          "rank_hist": 3,
+          "rank_live": 2,
+          "disagreement": 1
+        },
+        {
+          "skill": "SSIS",
+          "demand_pct": 1.8554798464827886,
+          "live_pct": 0.07385524372230429,
+          "recent_pct": 1.6593152699012812,
+          "change_pts": -0.13149297098619894,
+          "direction": "stable",
+          "volatility": 0.4754702030886322,
+          "reach": 0.07731635802469136,
+          "score": 0.3568,
+          "rank_hist": 2,
+          "rank_live": 3,
+          "disagreement": 1
+        },
+        {
+          "skill": "Alteryx",
+          "demand_pct": 2.6245673205162983,
+          "live_pct": 0.0,
+          "recent_pct": 1.8693551774837218,
+          "change_pts": -0.4285846006462306,
+          "direction": "stable",
+          "volatility": 0.8909599250721447,
+          "reach": 0.056378535353535354,
+          "score": 0.23,
+          "rank_hist": 1,
+          "rank_live": 5,
+          "disagreement": 4
+        },
+        {
+          "skill": "Talend",
+          "demand_pct": 0.33368240448715764,
+          "live_pct": 0.07385524372230429,
+          "recent_pct": 0.315059861373661,
+          "change_pts": -0.03359307048053872,
+          "direction": "stable",
+          "volatility": 0.14389721489873977,
+          "reach": 0.06164886018237081,
+          "score": 0.186,
+          "rank_hist": 4,
+          "rank_live": 3,
+          "disagreement": 1
+        }
+      ],
+      "warnings": [
+        "Fivetran ranks #5 in the 2022-24 corpus but #1 in current postings (0.3% then, 0.5% now)",
+        "Alteryx ranks #1 in the 2022-24 corpus but #5 in current postings (2.6% then, 0.0% now)"
+      ],
+      "rationale": "Fivetran: 0.3% of 2022-24 postings, 0.5% of current postings, stable."
+    }
+  },
+  "never_substitutes": [
+    {
+      "pair": [
+        "Docker",
+        "Kubernetes"
+      ],
+      "reason": "Kubernetes orchestrates containers. You need both."
+    },
+    {
+      "pair": [
+        "Pandas",
+        "Python"
+      ],
+      "reason": "Pandas is a Python library, not an alternative to Python."
+    },
+    {
+      "pair": [
+        "NumPy",
+        "Python"
+      ],
+      "reason": "Same \u2014 a library, not an alternative."
+    },
+    {
+      "pair": [
+        "Keras",
+        "TensorFlow"
+      ],
+      "reason": "Keras is TensorFlow's high-level API, not a competitor."
+    },
+    {
+      "pair": [
+        "PostgreSQL",
+        "SQL"
+      ],
+      "reason": "SQL is the language; PostgreSQL is one database that speaks it."
+    },
+    {
+      "pair": [
+        "Deep Learning",
+        "Machine Learning"
+      ],
+      "reason": "Deep learning is a subset of machine learning."
+    },
+    {
+      "pair": [
+        "Data Warehouse",
+        "ETL"
+      ],
+      "reason": "ETL is the process that fills the warehouse."
+    }
+  ]
+}

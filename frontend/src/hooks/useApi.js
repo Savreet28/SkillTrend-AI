@@ -8,7 +8,17 @@ import { useCallback, useEffect, useState } from "react";
  * in one hook means no page can forget.
  *
  * `deps` works like useEffect's dependency array.
+ *
+ * ESLint's react-hooks rules are disabled below, deliberately:
+ *   - set-state-in-effect fires on `setLoading(true)`. That is the standard
+ *     data-fetching pattern: the state is set ONCE when the request starts,
+ *     not in a render-triggered loop, so there is no cascade. Removing it
+ *     would leave stale data on screen while a new request is in flight.
+ *   - use-memo wants a literal dependency array, which a generic hook
+ *     taking `deps` as a parameter cannot provide.
+ * Both are false positives for this shape of hook.
  */
+/* eslint-disable react-hooks/set-state-in-effect, react-hooks/use-memo */
 export function useApi(fetcher, deps = []) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);

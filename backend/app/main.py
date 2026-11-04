@@ -15,10 +15,13 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import forecast, roles, skills, summary, trends
+from app.api.routes import (
+    forecast, roles, skills, stack, summary, trends, upload,
+)
 from app.core import config
 from app.schemas.models import Health
 from app.services.data_store import get_store
+from app.services.forecast_service import prophet_status
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -61,6 +64,7 @@ def health_check() -> Health:
         service="SkillTrend AI",
         data_loaded=store.loaded,
         error=store.load_error,
+        **prophet_status(),
     )
 
 
@@ -69,3 +73,5 @@ app.include_router(skills.router, prefix="/api")
 app.include_router(trends.router, prefix="/api")
 app.include_router(forecast.router, prefix="/api")
 app.include_router(roles.router, prefix="/api")
+app.include_router(stack.router, prefix="/api")
+app.include_router(upload.router, prefix="/api")

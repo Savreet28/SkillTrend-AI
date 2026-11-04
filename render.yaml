@@ -1,0 +1,24 @@
+# One-click deploy for the API on Render's free tier.
+#
+# The free tier sleeps after inactivity and has a small memory budget, which
+# is why backend/requirements.txt omits Prophet. Everything the API serves is
+# precomputed and committed under data/, so there is no build-time pipeline
+# run and no database.
+
+services:
+  - type: web
+    name: skilltrend-api
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r backend/requirements.txt
+    # $PORT is injected by Render; binding to it is required.
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      # Comma-separated frontend origins allowed to call this API.
+      # Set this to your deployed frontend URL after the first deploy.
+      - key: SKILLTREND_CORS_ORIGINS
+        sync: false

@@ -11,7 +11,6 @@ __pycache__/
 
 # Data — too large for Git, and regenerable from the pipeline
 data/raw/
-data/forecasts/
 
 # Note the trailing /* rather than /. Git cannot re-include a file whose
 # PARENT DIRECTORY is excluded, so "data/processed/" would make the
@@ -25,11 +24,32 @@ data/processed/*
 # (data/live/ is not matched by the rules above; stated here so nobody
 # "tidies up" by adding it.)
 
-# The role outputs are rebuilt from data/live/, and CI commits them so a
-# deployed API serves fresh role data without re-running the pipeline.
+# SERVING ARTIFACTS ARE COMMITTED.
+#
+# The API reads these at startup. They total ~400 KB, and committing them
+# means a deployed instance needs no pipeline run, no raw data download and
+# no database — it clones and starts. The big intermediates
+# (clean_postings 120 MB, posting_skills 45 MB) stay ignored because only
+# the pipeline needs them.
+!data/processed/monthly_trends.parquet
+!data/processed/monthly_totals.parquet
+!data/processed/skill_trends.parquet
+!data/processed/category_monthly.parquet
+!data/processed/extraction_stats.json
+!data/processed/skill_relations.parquet
+!data/processed/skill_families.json
 !data/processed/role_profiles.parquet
 !data/processed/role_monthly.parquet
 !data/processed/role_stats.json
+
+# Precomputed forecasts: committed for the same reason, and so the deployed
+# API can serve Prophet-quality results without Prophet installed.
+data/forecasts/*
+!data/forecasts/forecasts.parquet
+!data/forecasts/model_metrics.json
+
+# User uploads are per-install and transient.
+data/uploads/
 
 # Node
 node_modules/

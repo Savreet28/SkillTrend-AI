@@ -1,0 +1,11 @@
+{
+  "postings": 58276,
+  "skill_mentions": 256768,
+  "distinct_skills_found": 120,
+  "dictionary_size": 120,
+  "hit_rate_pct": 82.16,
+  "baseline_hit_rate_pct": 78.6,
+  "mean_skills_per_posting": 4.41,
+  "never_matched": [],
+  "extraction_seconds": 18.9
+}
