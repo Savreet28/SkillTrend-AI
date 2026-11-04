@@ -15,7 +15,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import forecast, skills, summary, trends
+from app.api.routes import forecast, roles, skills, summary, trends
 from app.core import config
 from app.schemas.models import Health
 from app.services.data_store import get_store
@@ -68,3 +68,4 @@ app.include_router(summary.router, prefix="/api")
 app.include_router(skills.router, prefix="/api")
 app.include_router(trends.router, prefix="/api")
 app.include_router(forecast.router, prefix="/api")
+app.include_router(roles.router, prefix="/api")

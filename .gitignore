@@ -9,10 +9,27 @@ __pycache__/
 .env
 .kaggle/
 
-# Data — too large for Git, and regenerable
+# Data — too large for Git, and regenerable from the pipeline
 data/raw/
-data/processed/
 data/forecasts/
+
+# Note the trailing /* rather than /. Git cannot re-include a file whose
+# PARENT DIRECTORY is excluded, so "data/processed/" would make the
+# negations below silently do nothing.
+data/processed/*
+
+# EXCEPTION: data/live/ IS committed. Job boards list only CURRENT
+# openings, so this file is the only record of what was posted in past
+# months — unlike everything else here it cannot be regenerated. The
+# scheduled GitHub Action appends to it monthly and commits the result.
+# (data/live/ is not matched by the rules above; stated here so nobody
+# "tidies up" by adding it.)
+
+# The role outputs are rebuilt from data/live/, and CI commits them so a
+# deployed API serves fresh role data without re-running the pipeline.
+!data/processed/role_profiles.parquet
+!data/processed/role_monthly.parquet
+!data/processed/role_stats.json
 
 # Node
 node_modules/

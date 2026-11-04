@@ -123,6 +123,33 @@ export default function About() {
         </Section>
       )}
 
+      <Section title="The role comparison (a second, separate data source)">
+        <p>
+          The Roles page does not use the Kaggle corpus at all. It pulls current
+          postings each month from three free job-board APIs — Arbeitnow, Jobicy
+          and Remotive — classifies each one into a role family from its title,
+          and runs the same skill extractor over it.
+        </p>
+        <p>
+          <strong>The two sources are never combined.</strong> The historical
+          corpus is 58K US data-analyst ads from 2022–24; the live feed is a few
+          thousand mostly-European, mostly-remote ads from this month. Averaging
+          them would produce a number describing nobody.
+        </p>
+        <p className="rounded-lg bg-amber-50 p-2 text-amber-900">
+          There are deliberately <strong>no role trends or forecasts</strong>.
+          Job boards list only current openings, so the feed has no history — it
+          accumulates one month at a time via a scheduled job. Drawing a trend
+          through a single month would be inventing a result.
+        </p>
+        <p>
+          <strong>Why APIs rather than a scraper:</strong> scraping Google job
+          results means defeating CAPTCHAs, which is against their terms; Apify
+          is paid; and a Selenium cron job breaks within weeks. These APIs are
+          published by the job boards themselves, are free, and need no key.
+        </p>
+      </Section>
+
       <Section title="Limitations">
         <ul className="ml-5 list-disc space-y-1">
           <li>
@@ -151,6 +178,16 @@ export default function About() {
           <li>
             <strong>Forecasts are weak.</strong> 21 monthly points is very little
             history. The honest reading is a direction, not a number.
+          </li>
+          <li>
+            <strong>Role profiles are small.</strong> Software Engineer has ~790
+            postings behind it; Data Analyst has ~37. Roles under 100 are marked
+            low confidence; under 30 they are dropped.
+          </li>
+          <li>
+            <strong>~70% of the live feed is not tech.</strong> Arbeitnow is a
+            general job board. Non-tech postings are classified "Other" and
+            excluded from every role profile.
           </li>
         </ul>
       </Section>

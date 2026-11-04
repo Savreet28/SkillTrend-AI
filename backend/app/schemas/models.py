@@ -9,7 +9,7 @@ These do three jobs at once:
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 
 from pydantic import BaseModel, Field
 
@@ -122,3 +122,51 @@ class Summary(BaseModel):
     top_skills: list[SkillSummary]
     rising_skills: list[SkillSummary]
     declining_skills: list[SkillSummary]
+
+
+# ---------------------------------------------------------------------
+# Role comparison (live feed). Kept in its own section because this data
+# comes from a DIFFERENT source and population than everything above.
+# ---------------------------------------------------------------------
+
+class RoleSkill(BaseModel):
+    skill: str
+    category: str
+    demand_pct: float = Field(description="% of THIS role's postings mentioning it")
+    n_with_skill: int
+    lift: float = Field(
+        description="Percentage points above the average across all roles. "
+                    "High lift means the skill is distinctive to this role."
+    )
+
+
+class RoleInfo(BaseModel):
+    role: str
+    n_postings: int
+    is_confident: bool = Field(
+        description="False when the role has under 100 postings behind it"
+    )
+    top_skills: list[RoleSkill] = []
+
+
+class RoleMatrixCell(BaseModel):
+    role: str
+    demand_pct: float
+
+
+class RoleMatrixRow(BaseModel):
+    skill: str
+    category: str
+    cells: list[RoleMatrixCell]
+
+
+class LiveStatus(BaseModel):
+    available: bool
+    live_postings: int = 0
+    tech_postings: int = 0
+    roles: list[str] = []
+    hit_rate_pct: float = 0.0
+    months_collected: int = 0
+    sources: dict[str, int] = {}
+    last_fetched: datetime | None = None
+    caveat: str = ""

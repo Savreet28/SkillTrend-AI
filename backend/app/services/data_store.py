@@ -35,6 +35,9 @@ class DataStore:
         self.skills = pd.DataFrame()
         self.categories = pd.DataFrame()
         self.forecasts = pd.DataFrame()
+        self.role_profiles = pd.DataFrame()
+        self.role_monthly = pd.DataFrame()
+        self.role_stats: dict = {}
         self.metrics: dict = {}
         self.extraction: dict = {}
 
@@ -56,6 +59,17 @@ class DataStore:
 
         if config.FORECASTS.exists():
             self.forecasts = pd.read_parquet(config.FORECASTS)
+
+        # Role data is OPTIONAL. Someone who clones the repo and runs only
+        # scripts 01-06 should still get a fully working dashboard; the
+        # Roles page then reports that the live feed has not been run.
+        if config.ROLE_PROFILES.exists():
+            self.role_profiles = pd.read_parquet(config.ROLE_PROFILES)
+        if config.ROLE_MONTHLY.exists():
+            self.role_monthly = pd.read_parquet(config.ROLE_MONTHLY)
+            self.role_monthly["month"] = pd.to_datetime(self.role_monthly["month"])
+        if config.ROLE_STATS.exists():
+            self.role_stats = json.loads(config.ROLE_STATS.read_text())
 
         self.monthly["month"] = pd.to_datetime(self.monthly["month"])
         self.totals["month"] = pd.to_datetime(self.totals["month"])
@@ -99,6 +113,22 @@ class DataStore:
         if analysis_only:
             df = df[df["is_analysis_grade"]]
         return df.sort_values("month")
+
+    @property
+    def has_roles(self) -> bool:
+        return not self.role_profiles.empty
+
+    def resolve_role(self, name: str) -> str | None:
+        if self.role_profiles.empty:
+            return None
+        known = self.role_profiles["role"].unique()
+        if name in known:
+            return name
+        lowered = name.lower()
+        for role in known:
+            if role.lower() == lowered:
+                return role
+        return None
 
     def forecast_for(self, skill: str) -> pd.DataFrame:
         if self.forecasts.empty:

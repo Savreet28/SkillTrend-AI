@@ -22,6 +22,7 @@ Everything is open source and runs locally. No paid services, no API keys.
 | **Generative AI: 0% → 5%** | of postings between Nov 2022 and Jul 2024. The dataset's own labels contain no AI terms at all and structurally cannot see this |
 | **8 of 29 months excluded** | an automated data-quality gate caught the scraper truncating descriptions in late 2024 |
 | **Prophet beats naive on 53% of skills** | mean absolute error 0.783 vs 0.811 percentage points — a real but small improvement |
+| **9 role families compared** | from a live feed of 4,500+ current postings — Python is in 78% of Data Scientist ads but 5% of Product Manager ads |
 
 ### Two findings worth reading the code for
 
@@ -39,6 +40,22 @@ Every forecast is backtested against "next month equals last month." Prophet win
 roughly half the skills, by a small margin. That is the honest answer for 21 noisy
 monthly observations, and the dashboard reports it per skill — including the skills
 where Prophet *loses*.
+
+### Role comparison, from live data
+
+A second, separate data source answers *"do software engineers use Python
+differently from data analysts?"*
+
+```
+Python     Data Analyst 38%  │ Data Scientist 78% │ Software Eng 33% │ Product 5%
+SQL        Data Analyst 46%  │ Data Engineer  75% │ DevOps        2% │ Product 3%
+Tableau    Data Analyst 19%  │ everyone else  ~0%
+Kubernetes DevOps       59%  │ Data Analyst    0%
+```
+
+Postings are pulled monthly from three free job-board APIs, classified into
+role families by title, and run through the same skill extractor. See
+**Live feed** below.
 
 ---
 
@@ -64,6 +81,14 @@ data/raw/gsearch_jobs.csv  (276 MB, 61,953 postings)
                                                →  forecasts.parquet + model_metrics.json
         │
    FastAPI  (loads Parquet once at startup)  →  React dashboard
+
+
+Separate track — live, multi-role:
+
+  07_fetch_live.py   Arbeitnow + Jobicy + Remotive APIs  →  live_postings.parquet
+        │                                                   (appended to monthly)
+  08_roles.py        classify role from title · extract skills
+                                                        →  role_profiles.parquet
 ```
 
 ### Why percentages, not counts
@@ -126,6 +151,16 @@ python scripts/05_trends.py
 python scripts/06_forecast.py   # ~3 min, fits 88 Prophet models
 ```
 
+Optional — the live multi-role feed (no API key needed):
+
+```bash
+python scripts/07_fetch_live.py   # ~2 min, fetches from 3 job-board APIs
+python scripts/08_roles.py        # builds the role profiles
+```
+
+Everything else works without these; the Roles page simply reports that the
+feed has not been fetched.
+
 Each script prints a report of what it did and what changed.
 
 ### 4. Run the app
@@ -147,11 +182,14 @@ cd frontend && npm install && npm run dev
 ### 5. Tests
 
 ```bash
-python scripts/test_extractor.py
+python scripts/test_extractor.py   # 8 cases — skill extraction
+python scripts/test_roles.py       # 26 cases — role classification
 ```
 
-Eight cases covering alias normalisation, punctuation-heavy names (`C++`, `CI/CD`),
-and the ambiguity traps (`excel at`, `go above and beyond`).
+The extractor tests cover alias normalisation, punctuation-heavy names (`C++`,
+`CI/CD`) and the ambiguity traps (`excel at`, `go above and beyond`). The role
+tests pin down rule *ordering* — without them "Senior Machine Learning Engineer"
+silently becomes a Software Engineer and nothing crashes.
 
 ---
 
@@ -167,6 +205,10 @@ and the ambiguity traps (`excel at`, `go above and beyond`).
 | `GET /api/trends?skills=Python,SQL` | monthly series for up to 8 skills |
 | `GET /api/trends/top?direction=rising` | ranked movers |
 | `GET /api/forecast/{skill}` | history + 6-month forecast + **backtest metrics** |
+| `GET /api/live/status` | is the live feed present, how fresh, how much |
+| `GET /api/roles` | all role families with their top skills |
+| `GET /api/roles/matrix` | the skill × role grid |
+| `GET /api/roles/{role}` | one role's profile (`?sort=lift` for distinctive skills) |
 
 Every forecast response carries its own accuracy metrics, so the UI cannot draw a
 prediction without also being handed the evidence for how much to trust it.
@@ -181,9 +223,40 @@ prediction without also being handed the evidence for how much to trust it.
 | **Skill Explorer** | all 120 skills, filterable by category / direction / name |
 | **Compare** | up to 6 skills side by side, with excluded months shaded |
 | **Forecast** | history (solid) vs forecast (dashed + uncertainty band), with backtest scores |
+| **Roles** | skill × role heatmap, per-role profiles, live-feed status |
 | **Method** | how it works and where it falls short |
 
 ---
+
+## Live feed
+
+Job boards list only **current** openings, so no single download can give you
+history — it has to be accumulated. `.github/workflows/fetch-jobs.yml` runs on
+the 1st of each month, fetches, rebuilds the role profiles, and commits the
+result. This is why `data/live/` is the one data directory **not** gitignored:
+without the commit, every run would start from an empty file.
+
+| Source | Per run | Key needed |
+|---|---|---|
+| Arbeitnow | ~4,300 (paginated) | none |
+| Jobicy | 200 (2 tech industries) | none |
+| Remotive | 10 (capped without auth) | none |
+
+### Why APIs and not a scraper
+
+The original plan was a Selenium/BeautifulSoup scraper over Google job results.
+That was rejected: Google serves CAPTCHAs to automated traffic (defeating them
+is both against their terms and out of scope), Apify is a paid service, and a
+Selenium cron job breaks within weeks. These three APIs are published by the job
+boards themselves, are free, need no key, and return the full description.
+
+Two things found while building it, both now documented in the code:
+
+- Arbeitnow's `created_at` is a **Unix timestamp**, not a date string — parsing
+  it as text silently produced `1970-01-01` for every row.
+- Arbeitnow's documented `search` parameter is **ignored**; `search=engineer`
+  and `search=nurse` return byte-identical results. Role filtering therefore
+  happens after the fetch, not during it.
 
 ## Limitations
 
@@ -205,12 +278,28 @@ one that looks impressive and cannot be defended.
   seasonality is deliberately switched off (1.75 cycles is not enough to fit a yearly
   pattern without fitting noise). Read the forecasts as a direction, not a number.
 
+**Specific to the role comparison:**
+
+- **Different population.** The live feed is mostly European and mostly remote;
+  the historical corpus is US data-analyst ads. Compare roles *against each
+  other*, never against the historical figures. The API and UI both say so.
+- **Small per role.** Software Engineer has 791 postings behind it; Data Analyst
+  has 37. Roles under 100 are flagged *low confidence* in the UI and roles under
+  30 are dropped entirely.
+- **No role trends yet.** The feed began in Nov 2026 and has no history. It
+  accumulates monthly; until several months exist, there is nothing honest to
+  plot. `role_monthly.parquet` is being collected for exactly that.
+- **~70% of the live feed is not tech at all** — Arbeitnow is a general job
+  board. Those postings are classified `Other` and excluded from every profile.
+
 ## Possible next steps
 
 - Fine-tune a transformer NER for skill extraction using the dictionary as a weak
   supervision labeller, and compare F1 against the rule-based baseline
-- Add a broader multi-role dataset for skill coverage, keeping forecasts on the
-  long-history corpus
+- Add Adzuna (free, needs a signup key) to widen the live feed beyond remote and
+  European roles
+- Once ~12 months of live data have accumulated, extend trends and forecasting to
+  the role dimension
 - Deploy so the dashboard is reachable without running it locally
 
 ---
@@ -229,7 +318,10 @@ frontend/src/
   hooks/useApi.js      loading / error / data for every page
   components/          Layout + shared UI
   pages/               Dashboard · SkillExplorer · Compare · Forecast · About
-scripts/               01_load → 06_forecast, plus skill_extractor + tests
+scripts/               01_load → 06_forecast (historical pipeline)
+                       07_fetch_live, 08_roles (live multi-role track)
+                       skill_extractor, roles, and their tests
+.github/workflows/     monthly scheduled fetch
 skills/skills.yaml     the 120-skill dictionary with aliases and ambiguity rules
 data/                  raw · processed · forecasts   (gitignored, regenerable)
 docs/                  phase write-ups

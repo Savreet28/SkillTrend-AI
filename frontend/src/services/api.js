@@ -60,6 +60,30 @@ export const api = {
     request(`/trends/top?direction=${direction}&limit=${limit}`),
 
   forecast: (name) => request(`/forecast/${enc(name)}`),
+
+  // --- Role comparison (live feed, a different data source) ---
+  liveStatus: () => request("/live/status"),
+  roles: (top = 10) => request(`/roles?top=${top}`),
+  role: (name, { sort = "demand_pct", top = 25 } = {}) =>
+    request(`/roles/${enc(name)}?sort=${sort}&top=${top}`),
+  roleMatrix: ({ skills, limit = 15 } = {}) => {
+    const params = new URLSearchParams();
+    if (skills?.length) params.set("skills", skills.join(","));
+    params.set("limit", String(limit));
+    return request(`/roles/matrix?${params}`);
+  },
+};
+
+export const ROLE_COLORS = {
+  "Software Engineer": "#2563eb",
+  "Data Engineer": "#059669",
+  "Data Scientist": "#db2777",
+  "Data Analyst": "#7c3aed",
+  "Machine Learning Engineer": "#9333ea",
+  "DevOps / SRE": "#ea580c",
+  "Product Manager": "#0891b2",
+  "QA / Test Engineer": "#ca8a04",
+  "Security Engineer": "#dc2626",
 };
 
 export const CATEGORY_COLORS = {

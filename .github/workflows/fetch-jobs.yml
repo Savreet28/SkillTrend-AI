@@ -1,0 +1,57 @@
+# Monthly ingestion of fresh job postings.
+#
+# Job boards only list CURRENT openings, so a single download can never
+# give you history. Running this on a schedule accumulates one month at a
+# time -- which is the only way this project gets a live time series.
+#
+# It commits the updated Parquet back to the repo. That is why
+# data/live/ is the one data directory NOT gitignored: without the commit
+# every run would start from an empty file and nothing would accumulate.
+
+name: Fetch live job postings
+
+on:
+  schedule:
+    # 06:00 UTC on the 1st of every month
+    - cron: "0 6 1 * *"
+  workflow_dispatch:        # lets you trigger it by hand from the Actions tab
+
+permissions:
+  contents: write           # needed to commit the refreshed data back
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      # Only what the fetch + role build need. Prophet is not installed
+      # here: forecasting runs on the historical corpus, not in CI.
+      - name: Install dependencies
+        run: pip install pandas pyarrow spacy PyYAML
+
+      - name: Fetch fresh postings
+        run: python scripts/07_fetch_live.py
+
+      - name: Rebuild role profiles
+        run: python scripts/08_roles.py
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/live/ data/processed/role_profiles.parquet \
+                  data/processed/role_monthly.parquet data/processed/role_stats.json
+          if git diff --staged --quiet; then
+            echo "No new postings this run."
+          else
+            git commit -m "chore(data): monthly live job-posting fetch [skip ci]"
+            git push
+          fi

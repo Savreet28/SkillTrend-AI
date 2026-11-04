@@ -5,6 +5,7 @@ const NAV = [
   { to: "/skills", label: "Skill Explorer" },
   { to: "/compare", label: "Compare" },
   { to: "/forecast", label: "Forecast" },
+  { to: "/roles", label: "Roles" },
   { to: "/about", label: "Method" },
 ];
 

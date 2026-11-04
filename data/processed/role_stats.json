@@ -1,0 +1,35 @@
+{
+  "live_postings": 4504,
+  "tech_postings": 1354,
+  "roles": [
+    "Data Analyst",
+    "Data Engineer",
+    "Data Scientist",
+    "DevOps / SRE",
+    "Machine Learning Engineer",
+    "Product Manager",
+    "QA / Test Engineer",
+    "Security Engineer",
+    "Software Engineer"
+  ],
+  "role_counts": {
+    "Data Analyst": 37,
+    "Data Engineer": 60,
+    "Data Scientist": 51,
+    "DevOps / SRE": 82,
+    "Machine Learning Engineer": 90,
+    "Product Manager": 153,
+    "QA / Test Engineer": 49,
+    "Security Engineer": 41,
+    "Software Engineer": 791
+  },
+  "hit_rate_pct": 78.66,
+  "months_collected": 2,
+  "sources": {
+    "arbeitnow": 4294,
+    "jobicy": 200,
+    "remotive": 10
+  },
+  "min_postings_per_role": 30,
+  "confident_threshold": 100
+}

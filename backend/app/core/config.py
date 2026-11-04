@@ -19,6 +19,14 @@ MONTHLY_TOTALS = PROCESSED_DIR / "monthly_totals.parquet"
 SKILL_TRENDS = PROCESSED_DIR / "skill_trends.parquet"
 CATEGORY_MONTHLY = PROCESSED_DIR / "category_monthly.parquet"
 EXTRACTION_STATS = PROCESSED_DIR / "extraction_stats.json"
+
+# Role comparison + live feed (scripts 07 and 08). Optional: the API still
+# starts without them, it just reports roles as unavailable.
+LIVE_DIR = DATA_DIR / "live"
+LIVE_POSTINGS = LIVE_DIR / "live_postings.parquet"
+ROLE_PROFILES = PROCESSED_DIR / "role_profiles.parquet"
+ROLE_MONTHLY = PROCESSED_DIR / "role_monthly.parquet"
+ROLE_STATS = PROCESSED_DIR / "role_stats.json"
 FORECASTS = FORECASTS_DIR / "forecasts.parquet"
 MODEL_METRICS = FORECASTS_DIR / "model_metrics.json"
 
